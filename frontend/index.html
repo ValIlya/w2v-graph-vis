@@ -1,0 +1,126 @@
+<!---->
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<style>
+
+rect {
+  fill: none;
+  pointer-events: all;
+}
+
+.node {
+  fill: #000;
+}
+
+.link {
+  stroke: #999;
+}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/d3-fetch.v1.min.js"></script>
+<script>
+var firstWord = "утопист_NOUN";
+
+var width = 960,
+    height = 500;
+
+var force = d3.layout.force()
+    .size([width, height])
+    .nodes([{text: firstWord, word: firstWord, isClicked: true}]) // initialize with a single node
+    .gravity(.05)
+    .linkDistance(100)
+    .charge(-100)
+    .on("tick", tick);
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+svg.append("rect")
+    .attr("width", width)
+    .attr("height", height);
+
+var nodes = force.nodes(),
+    links = force.links(),
+    nodesel = svg.selectAll(".node"),
+    link = svg.selectAll(".link"),
+    text = svg.selectAll(".text");
+
+var index = {firstWord : nodes[0]}
+drawCloseWords(nodes[0]);
+
+function drawCloseWords(node) {
+  d3.json("/get_close_words?word="+node.word).then(function(response) {
+      var words = response.result;
+      console.log(words);
+      words.forEach(function(word) {
+          if (word in index) {
+              var wordNode = index[word];
+          } else {
+              var wordNode = {x: node.x, y: node.y, text: word, isClicked: false, word: word};
+              index[word] = wordNode;
+          }
+          nodes.push(wordNode);
+          links.push({source: node, target: wordNode});
+      });
+      restart()
+  });
+}
+
+function tick() {
+  link.attr("x1", function(d) { return d.source.x; })
+      .attr("y1", function(d) { return d.source.y; })
+      .attr("x2", function(d) { return d.target.x; })
+      .attr("y2", function(d) { return d.target.y; });
+
+  text.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+  nodesel.attr("cx", function(d) { return d.x; })
+      .attr("cy", function(d) { return d.y; });
+}
+
+function restart() {
+  nodesel = nodesel.data(nodes);
+
+  nodesel.enter().insert("circle", ".cursor")
+      .attr("class", "node")
+      .attr("r", 5)
+      .attr("name", "Node")
+      .call(force.drag)
+      .on("click", datum => {
+          console.log(datum);
+          if (!datum.isClicked) {
+              drawCloseWords(datum)
+              datum.isClicked = true;
+          }
+      });
+
+  nodesel.exit()
+      .remove();
+
+  text = text.data(nodes);
+  text.enter().append("text")
+    .attr("dy", ".35em")
+    .attr("dx", "5px")
+	.style("font-size", "12px")
+    .text(function(d) { return d.text });
+
+  text.exit()
+      .remove();
+
+  link = link.data(links);
+
+  link.enter().insert("line", ".node")
+      .attr("class", "link");
+  link.exit()
+      .remove();
+
+  force.start();
+}
+
+</script>
+</body>
+</html>
