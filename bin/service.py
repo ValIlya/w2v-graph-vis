@@ -1,7 +1,8 @@
 import os
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
+from lib.graph import Graph, Node, Link
 from lib.logger import configure_logger
 from lib.w2v_handler import W2VHandler
 
@@ -10,6 +11,24 @@ logger = configure_logger('app', level='DEBUG')
 app = Flask(__name__, static_url_path=os.getcwd())
 w2v_handler = W2VHandler()
 w2v_handler.load_model(os.environ['EMBEDPATH'])
+graph = Graph()
+
+INIT_WORD = 'лук_NOUN'
+graph.add_node(Node(id=INIT_WORD, text=INIT_WORD))
+
+
+def add_similars(word):
+    close_words = w2v_handler.get_similar_words(word)
+    for close_word in close_words:
+        graph.add_node(Node(id=close_word, text=close_word))
+        graph.add_link(Link(source=word, target=close_word))
+
+    links = w2v_handler.get_links_between_words(close_words)
+    for word1, word2 in links:
+        graph.add_link(Link(source=word1, target=word2))
+
+
+add_similars(INIT_WORD)
 
 
 @app.route('/')
@@ -17,21 +36,22 @@ def index():
     return open('frontend/index.html', 'r').read()
 
 
-@app.route('/get_close_words')
-def get_close_words():
-    word = request.args.get('word', 'лук_NOUN')
-    close_words = w2v_handler.get_similar_words(word)
+@app.route('/get_graph')
+def get_graph():
+    add_word = request.args.get('add_word')
+    del_word = request.args.get('del_word')
+    if add_word is not None:
+        add_similars(add_word)
+    if del_word is not None:
+        graph.del_node_by_id(del_word)
+    return jsonify(graph.json())  # open('frontend/miserables.json', 'r').read()
 
-    return {
-        'result': close_words
-    }
 
 
 @app.route('/get_links')
 def get_links():
     words = request.args['words']
     words_list = words.split(',')
-    links = w2v_handler.get_links_between_words(words_list)
 
     return {
         'result': [

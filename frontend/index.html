@@ -1,135 +1,148 @@
-<!---->
 <!DOCTYPE html>
-<html>
-<meta charset="utf-8">
+<meta charset = "utf-8" >
 <style>
-
-rect {
-  fill: none;
-  pointer-events: all;
-}
-
-.node {
-  fill: #000;
-}
-
-.link {
+.links line {
   stroke: #999;
+  stroke-opacity: 0.6;
 }
 
+.nodes circle {
+  stroke: # fff;
+  stroke - width: 1.5 px;
+}
 </style>
-<body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="https://d3js.org/d3-fetch.v1.min.js"></script>
+<svg width = "960" height = "600" > </svg>
+<script src = "https://d3js.org/d3.v4.min.js" > </script>
 <script>
-var firstWord = "лук_NOUN";
 
-var width = 960,
-    height = 500;
+var svg = d3.select("svg"),
+  width = +svg.attr("width"),
+  height = +svg.attr("height");
 
-var force = d3.layout.force()
-    .size([width, height])
-    .nodes([{text: firstWord, word: firstWord, isClicked: true}]) // initialize with a single node
-    .gravity(0.1)
-    .linkDistance(100)
-    .charge(-300)
-    .chargeDistance(500)
-    .linkStrength(0.1)
-    .on("tick", tick);
+var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
+var simulation = d3.forceSimulation()
+  .force("link", d3.forceLink().id(function(d) {
+    return d.id;
+  }).distance(100))
+  .force("charge", d3.forceManyBody())
+  .force("center", d3.forceCenter(width / 2, height / 2));
 
-svg.append("rect")
-    .attr("width", width)
-    .attr("height", height);
+var node = svg.append("g")
+  .attr("class", "nodes")
+  .selectAll("circle");
 
-var nodes = force.nodes(),
-    links = force.links(),
-    nodesel = svg.selectAll(".node"),
-    linksel = svg.selectAll(".link"),
-    textsel = svg.selectAll(".text");
+var link = svg.append("g")
+  .attr("class", "links")
+  .selectAll("line");
 
-var index = {firstWord : nodes[0]}
-drawCloseWords(nodes[0]);
+var text = svg.append("g")
+  .attr("class", "texts")
+  .selectAll("text");
 
-function drawCloseWords(node) {
-  d3.json("/get_close_words?word="+node.word).then(function(response) {
-      var words = response.result;
-      console.log(words);
-      words.forEach(function(word) {
-          if (word in index) {
-              var wordNode = index[word];
-          } else {
-              var wordNode = {x: node.x, y: node.y, text: word, isClicked: false, word: word};
-              index[word] = wordNode;
-          }
-          nodes.push(wordNode);
-          if (wordNode!=node) {
-            links.push({source: node, target: wordNode})
-          };
-      });
-      restart()
-  });
+function dragstarted(d) {
+  if (!d3.event.active) simulation.alphaTarget(0.2).restart();
+  d.fx = d.x;
+  d.fy = d.y;
 }
 
-function tick() {
-  linksel.attr("x1", function(d) { return d.source.x; })
-      .attr("y1", function(d) { return d.source.y; })
-      .attr("x2", function(d) { return d.target.x; })
-      .attr("y2", function(d) { return d.target.y; });
-
-  textsel.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
-  nodesel.attr("cx", function(d) { return d.x; })
-      .attr("cy", function(d) { return d.y; });
-
+function dragged(d) {
+  d.fx = d3.event.x;
+  d.fy = d3.event.y;
 }
 
-function restart() {
-  force.stop();
-  nodesel = nodesel.data(nodes);
+function clicknode(d) {
+  console.log(d.id, "clicked");
+  d3.json("get_graph?add_word=" + d.id, function(error, graph) {
+    if (error) throw error;
+    console.log(graph);
+    redraw(graph);
+  })
+}
 
-  nodesel.enter().insert("circle", ".cursor")
-      .attr("class", "node")
-      .attr("r", 5)
-      .attr("name", "Node")
-      .call(force.drag)
-      .on("click", datum => {
-          console.log(datum);
-          if (!datum.isClicked && !d3.event.defaultPrevented) {
-              drawCloseWords(datum)
-              datum.isClicked = true;
-          }
-      });
+function dragended(d) {
+  if (!d3.event.active) simulation.alphaTarget(0.3);
+  d.fx = null;
+  d.fy = null;
+}
 
-  nodesel.exit()
-      .remove();
+function ticked() {
+  link
+    .attr("x1", function(d) {
+      return d.source.x;
+    })
+    .attr("y1", function(d) {
+      return d.source.y;
+    })
+    .attr("x2", function(d) {
+      return d.target.x;
+    })
+    .attr("y2", function(d) {
+      return d.target.y;
+    });
 
-  textsel = textsel.data(nodes);
-  textsel.enter().append("text")
+  node
+    .attr("cx", function(d) {
+      return d.x;
+    })
+    .attr("cy", function(d) {
+      return d.y;
+    });
+
+  text
+    .attr("x", function(d) {
+      return d.x;
+    })
+    .attr("y", function(d) {
+      return d.y;
+    });
+}
+
+function redraw(graph) {
+
+  link = link
+    .data(graph.links)
+    .enter().append("line");
+    .attr("stroke-width", function(d) {
+      return Math.sqrt(d.value);
+    });
+
+  node = node
+    .data(graph.nodes)
+    .enter().append("circle")
+    .attr("r", 10)
+    .attr("fill", function(d) {
+      return color(d.group);
+    })
+    .on("click", clicknode)
+    .call(d3.drag()
+      .on("start", dragstarted)
+      .on("drag", dragged)
+      .on("end", dragended));
+
+  text = text
+    .data(graph.nodes)
+    .enter()
+    .append("text")
+    .attr("width", "10")
+    .attr("height", "10")
     .attr("dy", ".35em")
-    .attr("dx", "5px")
-	.style("font-size", "12px")
-    .text(function(d) { return d.text });
+    .attr("dx", "12px")
+    .style("font-size", "12px")
+    .text(function(d) {
+      return d.text;
+    });
 
-  textsel.exit()
-      .remove();
+  simulation
+    .nodes(graph.nodes)
+    .on("tick", ticked);
 
-  linksel = linksel.data(links);
-
-  linksel.enter().insert("line", ".node")
-      .attr("class", "link");
-  linksel.exit()
-      .remove();
-
-  console.log(links.length, "links");
-  console.log(force.alpha, "alpha")
-
-  force.alpha(0.01).start();
+  simulation.force("link")
+    .links(graph.links);
 }
 
+d3.json("get_graph", function(error, graph) {
+  if (error) throw error;
+  redraw(graph);
+});
 </script>
-</body>
-</html>
