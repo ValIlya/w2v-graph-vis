@@ -22,7 +22,7 @@ rect {
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="https://d3js.org/d3-fetch.v1.min.js"></script>
 <script>
-var firstWord = "утопист_NOUN";
+var firstWord = "лук_NOUN";
 
 var width = 960,
     height = 500;
@@ -30,9 +30,11 @@ var width = 960,
 var force = d3.layout.force()
     .size([width, height])
     .nodes([{text: firstWord, word: firstWord, isClicked: true}]) // initialize with a single node
-    .gravity(.05)
+    .gravity(0.1)
     .linkDistance(100)
-    .charge(-100)
+    .charge(-300)
+    .chargeDistance(500)
+    .linkStrength(0.1)
     .on("tick", tick);
 
 var svg = d3.select("body").append("svg")
@@ -46,8 +48,8 @@ svg.append("rect")
 var nodes = force.nodes(),
     links = force.links(),
     nodesel = svg.selectAll(".node"),
-    link = svg.selectAll(".link"),
-    text = svg.selectAll(".text");
+    linksel = svg.selectAll(".link"),
+    textsel = svg.selectAll(".text");
 
 var index = {firstWord : nodes[0]}
 drawCloseWords(nodes[0]);
@@ -64,25 +66,29 @@ function drawCloseWords(node) {
               index[word] = wordNode;
           }
           nodes.push(wordNode);
-          links.push({source: node, target: wordNode});
+          if (wordNode!=node) {
+            links.push({source: node, target: wordNode})
+          };
       });
       restart()
   });
 }
 
 function tick() {
-  link.attr("x1", function(d) { return d.source.x; })
+  linksel.attr("x1", function(d) { return d.source.x; })
       .attr("y1", function(d) { return d.source.y; })
       .attr("x2", function(d) { return d.target.x; })
       .attr("y2", function(d) { return d.target.y; });
 
-  text.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+  textsel.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 
   nodesel.attr("cx", function(d) { return d.x; })
       .attr("cy", function(d) { return d.y; });
+
 }
 
 function restart() {
+  force.stop();
   nodesel = nodesel.data(nodes);
 
   nodesel.enter().insert("circle", ".cursor")
@@ -92,7 +98,7 @@ function restart() {
       .call(force.drag)
       .on("click", datum => {
           console.log(datum);
-          if (!datum.isClicked) {
+          if (!datum.isClicked && !d3.event.defaultPrevented) {
               drawCloseWords(datum)
               datum.isClicked = true;
           }
@@ -101,24 +107,27 @@ function restart() {
   nodesel.exit()
       .remove();
 
-  text = text.data(nodes);
-  text.enter().append("text")
+  textsel = textsel.data(nodes);
+  textsel.enter().append("text")
     .attr("dy", ".35em")
     .attr("dx", "5px")
 	.style("font-size", "12px")
     .text(function(d) { return d.text });
 
-  text.exit()
+  textsel.exit()
       .remove();
 
-  link = link.data(links);
+  linksel = linksel.data(links);
 
-  link.enter().insert("line", ".node")
+  linksel.enter().insert("line", ".node")
       .attr("class", "link");
-  link.exit()
+  linksel.exit()
       .remove();
 
-  force.start();
+  console.log(links.length, "links");
+  console.log(force.alpha, "alpha")
+
+  force.alpha(0.01).start();
 }
 
 </script>

@@ -9,7 +9,7 @@ logger = configure_logger('app', level='DEBUG')
 
 app = Flask(__name__, static_url_path=os.getcwd())
 w2v_handler = W2VHandler()
-w2v_handler.load_model(os.getenv('EMBEDPATH'))
+w2v_handler.load_model(os.environ['EMBEDPATH'])
 
 
 @app.route('/')
