@@ -36,6 +36,12 @@ def index():
     return open('frontend/index.html', 'r').read()
 
 
+@app.route('/viz.js')
+def get_js():
+    return open('frontend/viz.js', 'r').read()
+
+
+
 @app.route('/get_graph')
 def get_graph():
     add_word = request.args.get('add_word')
@@ -46,18 +52,6 @@ def get_graph():
         graph.del_node_by_id(del_word)
     return jsonify(graph.json())  # open('frontend/miserables.json', 'r').read()
 
-
-
-@app.route('/get_links')
-def get_links():
-    words = request.args['words']
-    words_list = words.split(',')
-
-    return {
-        'result': [
-            list(link) for link in links
-        ]
-    }
 
 
 if __name__ == "__main__":
