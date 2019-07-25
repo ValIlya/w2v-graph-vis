@@ -12,5 +12,12 @@
 }
 </style>
 <svg width = "960" height = "600" > </svg>
+<form id="data" action="restart" method="get" target="dummyframe">
+Restart with word
+<input placeholder="лук_NOUN" name="word" id="word" form="data" >
+</form>
+<iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
+
 <script src = "https://d3js.org/d3.v4.min.js" > </script>
+<script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js" > </script>
 <script src = "viz.js" > </script>

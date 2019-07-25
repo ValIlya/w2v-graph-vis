@@ -37,21 +37,10 @@ function dragged(d) {
 function clicknode(d) {
   console.log(d.id, "clicked");
 
-  node
-  .filter(function(n) {n.id == d.id})
-  .attr("fill", function(d) {
-    return color(d.isClicked);
-  })
-  var query = "get_graph"
-  if (d.isClicked) {
-    query += "?del_word=" + d.id
-  } else {
-    query += "?add_word=" + d.id
-  };
-  d3.json(query, function(error, graph) {
-      if (error) throw error;
-      console.log(graph);
-      redraw(graph);
+  d3.json("get_graph?add_word=" + d.id, function(error, graph) {
+    if (error) throw error;
+    console.log(graph);
+    redraw(graph);
   })
 }
 
@@ -94,26 +83,29 @@ function ticked() {
 }
 
 function redraw(graph) {
+
+  //define group and join
   node = node
-    .data(graph.nodes)
-    .enter().append("circle")
+    .data(graph.nodes);
+  //exit, remove
+  node.exit().remove();
+  //enter
+  var node_enter = node.enter()
+    .append("circle")
     .attr("r", 10)
     .attr("fill", function(d) {
-      return color(d.isClicked);
+      return color(d.isClicked)
     })
     .attr("id", function(d) {
-      return d.id;
+      return d.id
     })
     .on("click", clicknode)
     .call(d3.drag()
       .on("start", dragstarted)
       .on("drag", dragged)
-      .on("end", dragended))
-    .merge(node);
-
-  node
-    .exit()
-    .remove();
+      .on("end", dragended));
+  //merge
+  node = node.merge(node_enter);
 
   text = text
     .data(graph.nodes)
@@ -133,17 +125,16 @@ function redraw(graph) {
     .exit()
     .remove();
 
-
   link = link.data(graph.links, function(d) {
     return d.source + "-" + d.target;
   });
   link.exit().remove();
   link = link.enter()
-  .append("line")
-  .attr("stroke-width", function(d) {
-    return Math.sqrt(d.value);
-  })
-  .merge(link);
+    .append("line")
+    .attr("stroke-width", function(d) {
+      return Math.sqrt(d.value);
+    })
+    .merge(link);
 
   link
     .exit()
@@ -153,9 +144,9 @@ function redraw(graph) {
     .nodes(graph.nodes)
     .on("tick", ticked);
 
+  simulation.nodes(graph.nodes);
   simulation.force("link").links(graph.links);
   simulation.restart();
-
 }
 
 d3.json("get_graph", function(error, graph) {

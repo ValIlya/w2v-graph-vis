@@ -14,7 +14,6 @@ w2v_handler.load_model(os.environ['EMBEDPATH'])
 graph = Graph()
 
 INIT_WORD = 'лук_NOUN'
-graph.add_node(Node(id=INIT_WORD, text=INIT_WORD, isClicked=False))
 
 
 def add_similars(word):
@@ -29,7 +28,14 @@ def add_similars(word):
         graph.add_link(Link(source=word1, target=word2))
 
 
-add_similars(INIT_WORD)
+def restart(init_word):
+    global graph
+    graph = Graph()
+    graph.add_node(Node(id=init_word, text=init_word, isClicked=False))
+    add_similars(init_word)
+
+
+restart(INIT_WORD)
 
 
 @app.route('/')
@@ -42,6 +48,12 @@ def get_js():
     return open('frontend/viz.js', 'r').read()
 
 
+@app.route('/restart')
+def restart_handler():
+    word = request.args.get('word', INIT_WORD)
+    restart(word)
+    return jsonify(graph.json())
+
 
 @app.route('/get_graph')
 def get_graph():
@@ -51,8 +63,7 @@ def get_graph():
         add_similars(add_word)
     if del_word is not None:
         graph.del_node_by_id(del_word)
-    return jsonify(graph.json())  # open('frontend/miserables.json', 'r').read()
-
+    return jsonify(graph.json())
 
 
 if __name__ == "__main__":
