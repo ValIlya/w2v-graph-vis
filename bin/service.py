@@ -14,13 +14,14 @@ w2v_handler.load_model(os.environ['EMBEDPATH'])
 graph = Graph()
 
 INIT_WORD = 'лук_NOUN'
-graph.add_node(Node(id=INIT_WORD, text=INIT_WORD))
+graph.add_node(Node(id=INIT_WORD, text=INIT_WORD, isClicked=False))
 
 
 def add_similars(word):
+    graph.nodes[word].properties['isClicked'] = True
     close_words = w2v_handler.get_similar_words(word)
     for close_word in close_words:
-        graph.add_node(Node(id=close_word, text=close_word))
+        graph.add_node(Node(id=close_word, text=close_word, isClicked=False))
         graph.add_link(Link(source=word, target=close_word))
 
     links = w2v_handler.get_links_between_words(close_words)

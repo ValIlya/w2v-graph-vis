@@ -36,11 +36,22 @@ function dragged(d) {
 
 function clicknode(d) {
   console.log(d.id, "clicked");
-  d3.json("get_graph?add_word=" + d.id, function(error, graph) {
-    if (error) throw error;
-    console.log(graph);
-    redraw(graph);
-    // debugger;
+
+  node
+  .filter(function(n) {n.id == d.id})
+  .attr("fill", function(d) {
+    return color(d.isClicked);
+  })
+  var query = "get_graph"
+  if (d.isClicked) {
+    query += "?del_word=" + d.id
+  } else {
+    query += "?add_word=" + d.id
+  };
+  d3.json(query, function(error, graph) {
+      if (error) throw error;
+      console.log(graph);
+      redraw(graph);
   })
 }
 
@@ -88,7 +99,10 @@ function redraw(graph) {
     .enter().append("circle")
     .attr("r", 10)
     .attr("fill", function(d) {
-      return color(d.group);
+      return color(d.isClicked);
+    })
+    .attr("id", function(d) {
+      return d.id;
     })
     .on("click", clicknode)
     .call(d3.drag()
@@ -120,7 +134,9 @@ function redraw(graph) {
     .remove();
 
 
-  link = link.data(graph.links, function(d) { return d.source + "-" + d.target; });
+  link = link.data(graph.links, function(d) {
+    return d.source + "-" + d.target;
+  });
   link.exit().remove();
   link = link.enter()
   .append("line")
@@ -138,7 +154,7 @@ function redraw(graph) {
     .on("tick", ticked);
 
   simulation.force("link").links(graph.links);
-  simulation.alpha(1).restart();
+  simulation.restart();
 
 }
 

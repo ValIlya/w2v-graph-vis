@@ -28,26 +28,27 @@ class Link:
 class Graph:
 
     def __init__(self):
-        self.nodes = []
+        self.nodes = {}
         self.links = []
 
     @property
     def _node_ids(self):
-        return [node.id for node in self.nodes]
+        return [node.id for node in self.nodes.values()]
 
     def _has_node(self, node):
         return node.id in self._node_ids
 
     def add_node(self, node):
         if not self._has_node(node):
-            self.nodes.append(node)
+            self.nodes[node.id] = node
 
     def add_link(self, link):
         if link not in self.links:
             self.links.append(link)
 
     def del_node_by_id(self, id):
-        self.nodes = [node for node in self.nodes if node.id != id]
+        if id in self.nodes:
+            del self.nodes[id]
 
     def del_link_by_id(self, id1, id2=None):
         if id2 is None:
@@ -63,7 +64,7 @@ class Graph:
 
     def json(self):
         nodes = []
-        for node in self.nodes:
+        for node in self.nodes.values():
             node_dict = {
                 key: value for key, value in node.properties.items()
             }
