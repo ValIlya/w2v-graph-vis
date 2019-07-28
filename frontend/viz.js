@@ -5,9 +5,8 @@ var svg = d3.select("svg"),
 var color = d3.scaleOrdinal(d3.schemeCategory20);
 
 var simulation = d3.forceSimulation()
-  .force("link", d3.forceLink().id(function(d) {
-    return d.id;
-  }).distance(100))
+  .alphaMin(0.01)
+  .force("link", d3.forceLink().id(function(d) { return d.id }).distance(100))
   .force("charge", d3.forceManyBody())
   .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -24,7 +23,7 @@ var text = svg.append("g")
   .selectAll("text");
 
 function dragstarted(d) {
-  if (!d3.event.active) simulation.alphaTarget(0.2).restart();
+  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
   d.fx = d.x;
   d.fy = d.y;
 }
@@ -45,7 +44,7 @@ function clicknode(d) {
 }
 
 function dragended(d) {
-  if (!d3.event.active) simulation.alphaTarget(0.3);
+  if (!d3.event.active) simulation.alphaTarget(0);
   d.fx = null;
   d.fy = null;
 }
@@ -143,10 +142,8 @@ function redraw(graph) {
   simulation
     .nodes(graph.nodes)
     .on("tick", ticked);
-
-  simulation.nodes(graph.nodes);
   simulation.force("link").links(graph.links);
-  simulation.restart();
+  simulation.alpha(0.5).restart();
 }
 
 d3.json("get_graph", function(error, graph) {
