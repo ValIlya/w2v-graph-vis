@@ -35,7 +35,11 @@ function dragged(d) {
 
 function clicknode(d) {
   console.log(d.id, "clicked");
-
+  d.isClicked=true;
+  d3.select(this).attr("fill", function(d) {
+    return color(d.isClicked)
+  });
+  console.log(d3.select(this));
   d3.json("get_graph?add_word=" + d.id, function(error, graph) {
     if (error) throw error;
     console.log(graph);
@@ -82,7 +86,6 @@ function ticked() {
 }
 
 function redraw(graph) {
-
   //define group and join
   node = node
     .data(graph.nodes);
