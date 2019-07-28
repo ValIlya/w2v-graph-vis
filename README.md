@@ -13,3 +13,5 @@ Download word2vec embeddings from [RusVectōrēs](https://rusvectores.org/en/mod
 ```shell
 EMBEDPATH=<path_to_word2vec_embeddings> make run
 ```
+
+[Changelog](./changelog.md)
