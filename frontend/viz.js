@@ -21,11 +21,7 @@ var link = svg.append("g")
 
 var node = svg.append("g")
   .attr("class", "nodes")
-  .selectAll("circle");
-
-var text = svg.append("g")
-  .attr("class", "texts")
-  .selectAll("text");
+  .selectAll("node");
 
 var defaultCoords = {
   "cx": 0,
@@ -67,7 +63,7 @@ function clicknode(d, sel) {
   defaultCoords["cx"] = d.x;
   defaultCoords["cy"] = d.y;
 
-  sel.attr("fill", color(d.isClicked));
+  sel.select('circle').attr("fill", color(d.isClicked));
   d3.json("get_graph?add_word=" + d.id, function(error, graph) {
     if (error) throw error;
     console.log(graph);
@@ -106,26 +102,16 @@ function ticked() {
     });
 
   node
-    .attr("cx", function(d) {
-      return d.x;
-    })
-    .attr("cy", function(d) {
-      return d.y;
-    });
+    .attr("cx", function(d) { return d.x; })
+    .attr("cy", function(d) { return d.y; });
 
-  text
-    .attr("x", function(d) {
-      return d.x;
-    })
-    .attr("y", function(d) {
-      return d.y;
-    });
+  node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 }
 
 function redraw(graph) {
 
   var nodeCoords = {};
-  svg.selectAll("circle")
+  svg.selectAll("node")
     .attr("id",function(){
       var sel = d3.select(this);
         nodeCoords[sel.attr('id')] = {
@@ -155,13 +141,10 @@ function redraw(graph) {
   node.exit().remove();
   //enter
   var node_enter = node.enter()
-    .append("circle")
-    .attr("r", 10)
+    .append("g")
+    .attr("class", "nodes")
     .attr("cx",defaultCoords["cx"])
     .attr("cy",defaultCoords["cy"])
-    .attr("fill", function(d) {
-      return color(d.isClicked)
-    })
     .attr("id", function(d) {
       return d.id
     })
@@ -183,27 +166,23 @@ function redraw(graph) {
       .on("start", dragstarted)
       .on("drag", dragged)
       .on("end", dragended));
+
+ node_enter
+   .append("circle")
+   .attr("x", -8)
+   .attr("y", -8)
+   .attr("r", 10)
+   .attr("fill", function(d) {
+     return color(d.isClicked)
+   });
+
+  node_enter
+    .append("text")
+    .attr("dx", 12)
+    .attr("dy", ".35em")
+    .text(function(d) { return d.text });
   //merge
   node = node.merge(node_enter);
-
-  text = text
-    .data(graph.nodes);
-  text.exit().remove();
-
-  var text_enter = text
-    .enter()
-    .append("text")
-    .attr("width", "10")
-    .attr("height", "10")
-    .attr("dy", ".35em")
-    .attr("dx", "12px")
-    .style("font-size", "12px")
-    .text(function(d) {
-      return d.text;
-    })
-
-  text = text.merge(text_enter);
-
 
 
   link = link.data(graph.links, function(d) {
