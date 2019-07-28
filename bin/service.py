@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 
 from lib.graph import Graph, Node, Link
 from lib.logger import configure_logger
@@ -46,6 +46,12 @@ def index():
 @app.route('/viz.js')
 def get_js():
     return open('frontend/viz.js', 'r').read()
+
+
+@app.route('/get_image')
+def get_image():
+    word = request.args.get('word', INIT_WORD)
+    return send_file(os.path.abspath('data/w.png'), mimetype='image/gif')
 
 
 @app.route('/restart')

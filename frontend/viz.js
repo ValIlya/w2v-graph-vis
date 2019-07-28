@@ -1,3 +1,8 @@
+// Define the div for the tooltip
+var tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
 var svg = d3.select("svg"),
   width = +svg.attr("width"),
   height = +svg.attr("height");
@@ -161,6 +166,19 @@ function redraw(graph) {
       return d.id
     })
     .on("click", node_click_dblclick)
+    .on("mouseover", function(d) {
+        tooltip.transition()
+            .duration(200)
+            .style("opacity", .9);
+        tooltip.html('<img src="get_image?word='+d.id+'"><br/>' + d.text)
+            .style("left", (d3.event.pageX + 30) + "px")
+            .style("top", (d3.event.pageY - 90) + "px");
+        })
+    .on("mouseout", function(d) {
+        tooltip.transition()
+            .duration(500)
+            .style("opacity", 0);
+    })
     .call(d3.drag()
       .on("start", dragstarted)
       .on("drag", dragged)
