@@ -13,8 +13,6 @@ w2v_handler = W2VHandler()
 w2v_handler.load_model(os.environ['EMBEDPATH'])
 graph = Graph()
 
-INIT_WORD = 'лук_NOUN'
-
 
 def add_similars(word):
     graph.nodes[word].properties['isClicked'] = True
@@ -35,6 +33,7 @@ def restart(init_word):
     add_similars(init_word)
 
 
+INIT_WORD = w2v_handler.get_random_word()
 restart(INIT_WORD)
 
 
@@ -50,13 +49,15 @@ def get_js():
 
 @app.route('/get_image')
 def get_image():
-    word = request.args.get('word', INIT_WORD)
+    word = request.args.get('word', w2v_handler.get_random_word())
     return send_file(os.path.abspath('data/w.png'), mimetype='image/gif')
 
 
 @app.route('/restart')
 def restart_handler():
-    word = request.args.get('word', INIT_WORD)
+    word = request.args.get('word', w2v_handler.get_random_word())
+    if not w2v_handler.has_word(word):
+        word = w2v_handler.get_random_word()
     restart(word)
     return jsonify(graph.json())
 

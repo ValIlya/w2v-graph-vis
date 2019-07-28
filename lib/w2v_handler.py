@@ -1,4 +1,5 @@
 import json
+import random
 import zipfile
 
 from gensim import models
@@ -65,3 +66,9 @@ class W2VHandler:
                     pairs.append((word1, word2))
 
         return pairs
+
+    def get_random_word(self):
+        return random.choice(list(self.model.vocab))
+
+    def has_word(self, word):
+        return word in self.model.vocab
