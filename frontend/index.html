@@ -12,13 +12,16 @@
 }
 </style>
 <svg width = "960" height = "600" > </svg>
+<div>
 Click to get similar words, double click to remove word.
 <form id="data" action="restart" method="get" target="dummyframe" onsubmit="window.location.reload()">
 Restart with word
 <input placeholder="лук_NOUN" name="word" id="word" form="data" >
 </form>
+<button onclick="d3.json('get_graph', function(error, graph) {download(JSON.stringify(graph, null, ' '), 'graph.json', 'text/plain')})">Download!</button>
+</div>
 <iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
-
 <script src = "https://d3js.org/d3.v4.min.js" > </script>
+<script src = "http://danml.com/js/download2.js" > </script>
 <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js" > </script>
 <script src = "viz.js" > </script>
