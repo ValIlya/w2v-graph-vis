@@ -37,7 +37,9 @@ Restart with word
 <input placeholder="лук_NOUN" name="word" id="word" form="data" >
 (Fill it blank for random word)
 </form>
-<button onclick="d3.json('get_graph', function(error, graph) {download(JSON.stringify(graph, null, ' '), 'graph.json', 'text/plain')})">Download!</button>
+<button onclick="d3.json('get_graph', function(error, graph) {download(JSON.stringify(graph, null, ' '), 'graph.json', 'text/plain')})">
+    Download graph
+</button>
 </div>
 <iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
 <script src = "https://d3js.org/d3.v4.min.js" > </script>
