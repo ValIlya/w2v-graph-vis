@@ -22,6 +22,11 @@ var text = svg.append("g")
   .attr("class", "texts")
   .selectAll("text");
 
+var defaultCoords = {
+  "cx": 0,
+  "cy": 0
+};
+
 function dragstarted(d) {
   if (!d3.event.active) simulation.alphaTarget(0.3).restart();
   d.fx = d.x;
@@ -36,6 +41,10 @@ function dragged(d) {
 function clicknode(d) {
   console.log(d.id, "clicked");
   d.isClicked=true;
+  defaultCoords["cx"] = d.x;
+  defaultCoords["cy"] = d.y;
+  console.log("defaultCoords", defaultCoords);
+
   d3.select(this).attr("fill", function(d) {
     return color(d.isClicked)
   });
@@ -86,6 +95,31 @@ function ticked() {
 }
 
 function redraw(graph) {
+
+  var nodeCoords = {};
+  svg.selectAll("circle")
+    .attr("id",function(){
+      var sel = d3.select(this);
+        nodeCoords[sel.attr('id')] = {
+          "cx": parseFloat(sel.attr('cx')),
+          "cy": parseFloat(sel.attr('cy'))
+        };
+        return sel.attr('id');
+    });
+
+  graph.nodes.forEach(function(d) {
+    if (d.id in nodeCoords) {
+      d.x = nodeCoords[d.id]["cx"];
+      d.cx = nodeCoords[d.id]["cx"];
+      d.y = nodeCoords[d.id]["cy"];
+      d.cy = nodeCoords[d.id]["cy"];
+    } else {
+      d.x = defaultCoords["cx"];
+      d.cx = defaultCoords["cx"];
+      d.y = defaultCoords["cy"];
+      d.cy = defaultCoords["cy"];
+    }
+  });
   //define group and join
   node = node
     .data(graph.nodes);
@@ -95,6 +129,8 @@ function redraw(graph) {
   var node_enter = node.enter()
     .append("circle")
     .attr("r", 10)
+    .attr("cx",defaultCoords["cx"])
+    .attr("cy",defaultCoords["cy"])
     .attr("fill", function(d) {
       return color(d.isClicked)
     })
