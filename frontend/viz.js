@@ -21,7 +21,7 @@ var link = svg.append("g")
 
 var node = svg.append("g")
   .attr("class", "nodes")
-  .selectAll("node");
+  .selectAll(".node");
 
 var defaultCoords = {
   "cx": 0,
@@ -111,7 +111,7 @@ function ticked() {
 function redraw(graph) {
 
   var nodeCoords = {};
-  svg.selectAll("node")
+  node
     .attr("id",function(){
       var sel = d3.select(this);
         nodeCoords[sel.attr('id')] = {
@@ -142,7 +142,7 @@ function redraw(graph) {
   //enter
   var node_enter = node.enter()
     .append("g")
-    .attr("class", "nodes")
+    .attr("class", "node")
     .attr("cx",defaultCoords["cx"])
     .attr("cy",defaultCoords["cy"])
     .attr("id", function(d) {
@@ -184,6 +184,12 @@ function redraw(graph) {
   //merge
   node = node.merge(node_enter);
 
+  // Update all labels by force
+  node.data(graph.nodes).select('text').text(function(d) { return d.text });
+  // Update all circles fill by force
+  node.data(graph.nodes).select('circle').attr("fill", function(d) {
+    return color(d.isClicked)
+  });
 
   link = link.data(graph.links, function(d) {
     return d.source + "-" + d.target;
