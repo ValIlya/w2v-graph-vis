@@ -35,6 +35,7 @@ Click to get similar words, double click to remove word.
 <form id="data" action="restart" method="get" target="dummyframe" onsubmit="window.location.reload()">
 Restart with word
 <input placeholder="лук_NOUN" name="word" id="word" form="data" >
+(Fill it blank for random word)
 </form>
 <button onclick="d3.json('get_graph', function(error, graph) {download(JSON.stringify(graph, null, ' '), 'graph.json', 'text/plain')})">Download!</button>
 </div>
