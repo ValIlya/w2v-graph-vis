@@ -54,12 +54,12 @@ class Graph:
         if id2 is None:
             self.links = [
                 link for link in self.links
-                if link.is_linked_to(id1)
+                if not link.is_linked_to(id1)
             ]
         else:
             self.links = [
                 link for link in self.links
-                if link.is_linked_to(id1) and link.is_linked_to(id2)
+                if (not link.is_linked_to(id1)) and (not link.is_linked_to(id2))
             ]
 
     def json(self):

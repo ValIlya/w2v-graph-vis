@@ -63,6 +63,7 @@ def get_graph():
         add_similars(add_word)
     if del_word is not None:
         graph.del_node_by_id(del_word)
+        graph.del_link_by_id(del_word)
     return jsonify(graph.json())
 
 
