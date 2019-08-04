@@ -1,4 +1,4 @@
-
+const localStorageName = 'w2v-graph-vis';
 var graph = {nodes: [], links:[]};
 var node_indices = {};
 var link_indices = {};
@@ -213,6 +213,10 @@ function redraw(graph) {
       d['x'] = d['cx'];
       d['y'] = d['cy'];
   });
+
+  // save to local storage
+  localStorage.setItem(localStorageName, JSON.stringify(graph));
+  // start simulation
   simulation
     .nodes([...graph.nodes])
     .on("tick", ticked);
@@ -243,16 +247,31 @@ function append_similars(word_id) {
 function restart(word) {
     console.log("word", word);
     var queryUrl = "get_word_info";
-    if (word != "") {
-        queryUrl += "?word="+word;
+    var needNewWords = true;
+    if (word === null) {
+        let loaded_graph = JSON.parse(localStorage.getItem(localStorageName));
+        console.log("loaded_graph", loaded_graph);
+        if (loaded_graph !== null) {
+            graph = loaded_graph;
+            console.log('initializing from the local storage')
+            needNewWords = false;
+        }
+    } else {
+        if (word != "") {
+            queryUrl += "?word="+word
+        };
+        graph.nodes = [];
+        graph.links = [];
     };
-    graph.nodes = [];
-    graph.links = [];
-    d3.json(queryUrl, function(error, random_word) {
-      if (error) throw error;
-      graph.nodes.push(random_word);
-      append_similars(random_word.id);
-    });
+    if (needNewWords) {
+        d3.json(queryUrl, function(error, random_word) {
+          if (error) throw error;
+          graph.nodes.push(random_word);
+          append_similars(random_word.id);
+        });
+    } else {
+        redraw(graph)
+    }
 }
 
-restart("");
+restart(null);
