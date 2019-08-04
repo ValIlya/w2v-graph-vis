@@ -1,5 +1,5 @@
 const localStorageName = 'w2v-graph-vis';
-var graph = {nodes: [], links:[], threshold: 0.3};
+var graph = {nodes: [], links:[], threshold: 0.3, topn: 10};
 var node_indices = {};
 var link_indices = {};
 
@@ -239,7 +239,8 @@ function redraw(graph) {
 }
 
 function append_similars(word_id) {
-    d3.json("get_similar_words?word="+word_id+"&threshold="+graph.threshold, function(error, similar_words) {
+    let query = "get_similar_words?word="+word_id+"&threshold="+graph.threshold+"&topn="+graph.topn;
+    d3.json(query, function(error, similar_words) {
       if (error) throw error;
       if (similar_words.length > 0) {
           update_indices();
@@ -267,6 +268,7 @@ function restart(word) {
         if (loaded_graph !== null) {
             graph = loaded_graph;
             document.querySelector("#threshold-range").value = graph.threshold;
+            document.querySelector("#topn-range").value = graph.topn;
             console.log('initializing from the local storage');
             needNewWords = false;
         }

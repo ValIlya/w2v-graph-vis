@@ -36,7 +36,7 @@ def get_word_info():
 def get_similar_words():
     word = request.args['word']
     threshold = float(request.args.get('threshold', THRESHOLD))
-    topn = request.args.get('topn', TOPN)
+    topn = int(request.args.get('topn', TOPN))
     similar_words = word_handler.get_similar_words(word, threshold=threshold, topn=topn)
     return jsonify(similar_words)
 

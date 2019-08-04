@@ -33,3 +33,20 @@ document.querySelector("#delete-weak-links").addEventListener("click", function(
     graph.links = graph.links.filter(l => l.similarity >= graph.threshold);
     redraw(graph);
 });
+
+
+let topnRange = document.querySelector("#topn-range");
+let topnValue = document.getElementById('topn-value');
+topnValue.innerHTML = "Top N: " + topnRange.value;
+
+topnRange.addEventListener("change", function(e){
+    graph.topn = topnRange.value;
+    topnValue.innerHTML = "Top N: " + graph.topn;
+
+    console.log('resetting topn');
+
+    link
+        .data(graph.links, l => get_link_id(l))
+        .attr('visibility', l => l.visibility);
+
+});
