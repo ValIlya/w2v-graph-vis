@@ -135,7 +135,22 @@ function redraw(graph) {
       d['cy'] = isNaN(d['y']) ? defaultCoords['cy'] : d['y'];
 
   });
-
+  // making pointers from string and rewiring old links
+  graph.links.forEach(function (l) {
+      var source_id, target_id;
+      if (typeof l.source == 'string') {
+          // for new links, coming from json
+          source_id = l.source;
+          target_id = l.target;
+      } else {
+          // old links, might be wrong pointers
+          source_id = l.source.id;
+          target_id = l.target.id;
+      };
+      l.source = graph.nodes[node_indices[source_id]];
+      l.target = graph.nodes[node_indices[target_id]];
+  });
+  debugger;
   //define group and join
   node = node
     .data(graph.nodes);
@@ -208,7 +223,7 @@ function redraw(graph) {
     .exit()
     .remove();
 
-  // applying saved positions before simulation;
+  // applying saved positions before simulation
   graph.nodes.forEach(function (d) {
       d['x'] = d['cx'];
       d['y'] = d['cy'];
@@ -218,9 +233,9 @@ function redraw(graph) {
   localStorage.setItem(localStorageName, JSON.stringify(graph));
   // start simulation
   simulation
-    .nodes([...graph.nodes])
+    .nodes(graph.nodes)
     .on("tick", ticked);
-  simulation.force("link").links([...graph.links]);
+  simulation.force("link").links(graph.links);
   simulation.alpha(0.5).restart();
 }
 
