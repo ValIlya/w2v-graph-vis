@@ -28,6 +28,16 @@ var node = svg.append("g")
   .attr("class", "nodes")
   .selectAll(".node");
 
+var zoom_handler = d3.zoom()
+    .on("zoom", zoom_actions);
+
+zoom_handler(svg);
+
+function zoom_actions(){
+    svg.select('.links').attr("transform", d3.event.transform)
+    svg.select('.nodes').attr("transform", d3.event.transform)
+}
+
 var defaultCoords = {
   "cx": 0,
   "cy": 0
