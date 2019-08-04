@@ -150,7 +150,6 @@ function redraw(graph) {
       l.source = graph.nodes[node_indices[source_id]];
       l.target = graph.nodes[node_indices[target_id]];
   });
-  debugger;
   //define group and join
   node = node
     .data(graph.nodes);
@@ -260,12 +259,11 @@ function append_similars(word_id) {
 }
 
 function restart(word) {
-    console.log("word", word);
+    console.log("restarting with word", word);
     var queryUrl = "get_word_info";
     var needNewWords = true;
     if (word === null) {
         let loaded_graph = JSON.parse(localStorage.getItem(localStorageName));
-        console.log("loaded_graph", loaded_graph);
         if (loaded_graph !== null) {
             graph = loaded_graph;
             console.log('initializing from the local storage')
