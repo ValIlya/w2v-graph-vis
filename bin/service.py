@@ -35,7 +35,7 @@ def get_word_info():
 @app.route('/get_similar_words')
 def get_similar_words():
     word = request.args['word']
-    threshold = request.args.get('threshold', THRESHOLD)
+    threshold = float(request.args.get('threshold', THRESHOLD))
     topn = request.args.get('topn', TOPN)
     similar_words = word_handler.get_similar_words(word, threshold=threshold, topn=topn)
     return jsonify(similar_words)
@@ -44,7 +44,8 @@ def get_similar_words():
 @app.route('/get_links')
 def get_links():
     words_list = request.args['words'].split(',')
-    links = word_handler.get_directed_links_between_words(words_list)
+    threshold = float(request.args.get('threshold', THRESHOLD))
+    links = word_handler.get_directed_links_between_words(words_list, threshold=threshold)
     return jsonify(links)
 
 

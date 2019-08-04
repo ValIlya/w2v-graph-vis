@@ -1,5 +1,5 @@
 const localStorageName = 'w2v-graph-vis';
-var graph = {nodes: [], links:[]};
+var graph = {nodes: [], links:[], threshold: 0.3};
 var node_indices = {};
 var link_indices = {};
 
@@ -109,7 +109,7 @@ function ticked() {
 }
 
 function get_link_id(l) {
-    return l.source + "-" + l.target;
+    return l.source.id + "-" + l.target.id;
 }
 
 function is_link_connected_to_node(l, node) {
@@ -239,14 +239,14 @@ function redraw(graph) {
 }
 
 function append_similars(word_id) {
-    d3.json("get_similar_words?word="+word_id, function(error, similar_words) {
+    d3.json("get_similar_words?word="+word_id+"&threshold="+graph.threshold, function(error, similar_words) {
       if (error) throw error;
       if (similar_words.length > 0) {
           update_indices();
           let new_words = similar_words.filter(d => (!(d.id in node_indices)));
           graph.nodes.push(...new_words);
           var sim_words_str = similar_words.map(d=>d.id).join(',') + ',' + word_id;
-          d3.json("get_links?words="+sim_words_str, function(error, links) {
+          d3.json("get_links?words="+sim_words_str+"&threshold="+graph.threshold, function(error, links) {
               if (error) throw error;
               let new_links = links.filter(l =>(!(get_link_id(l) in link_indices)));
               graph.links.push(...new_links);
@@ -266,7 +266,8 @@ function restart(word) {
         let loaded_graph = JSON.parse(localStorage.getItem(localStorageName));
         if (loaded_graph !== null) {
             graph = loaded_graph;
-            console.log('initializing from the local storage')
+            document.querySelector("#threshold-range").value = graph.threshold;
+            console.log('initializing from the local storage');
             needNewWords = false;
         }
     } else {

@@ -6,10 +6,6 @@
   stroke-opacity: 0.6;
 }
 
-.nodes circle {
-  stroke: # fff;
-  stroke - width: 1.5 px;
-}
 .nodes text {
   pointer-events: none;
   font: 12px sans-serif;
@@ -38,15 +34,19 @@ svg {
 </style>
 <svg width = "960" height = "600" > </svg>
 <div>
-Click to get similar words, double click to remove word.
+<div>Click to get similar words, double click to remove word.</div>
+<div id="threshold-value">Threshold</div>
+<input type="range" class="custom-range w-50" min="0.05" max="0.95" step="0.05" value="0.3" id="threshold-range">
+<button type="button" class="btn btn-secondary" id="delete-weak-links">
+    Delete invisible links
+</button>
 <form id="restart-form">
   <div class="form-group">
   <label for="restart-input">Restart with word</label>
-  <input type="text" class="form-control" id="restart-input">
+  <input type="text" class="form-control" id="restart-input" tooltip="show">
   <small class="form-text text-muted">Fill it blank for random word.</small>
   </div>
 </form>
-
 <button type="button" class="btn btn-primary" onclick="download(JSON.stringify(graph, null, ' '), 'graph.json', 'text/plain')">
     Download graph
 </button>
