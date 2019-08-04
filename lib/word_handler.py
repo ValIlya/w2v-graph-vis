@@ -1,6 +1,9 @@
 import json
 import random
 import zipfile
+from functools import lru_cache
+from itertools import product
+from typing import List
 
 from gensim import models
 
@@ -38,37 +41,45 @@ def load_embeddings(embeddings_file):
     return emb_model
 
 
-class W2VHandler:
+class WordHandler:
 
     def __init__(self):
         self.model = None
-        self.threshold = 0.3
 
-    def load_model(self, embeddings_file):
+    def load_model(self, embeddings_file: str):
         self.model = load_embeddings(embeddings_file)
 
-    def get_similar_words(self, word, topn=10):
-        similar_word_closeness = self.model.similar_by_word(word, topn=topn)
-        close_words = [
-            word for word, closeness in similar_word_closeness
-            if closeness > self.threshold
+    def get_word_info(self, word: str) -> dict:
+        text, pos = word.split('_')
+        text = text.replace('::', ' ')
+        return {'id': word, 'text': text, 'pos': pos}
+
+    def get_similar_words(self, word: str, threshold: float = 0.3, topn: int = 10) -> List[dict]:
+        similar_word_with_similarity = self.model.similar_by_word(word, topn=topn)
+        sim_words = [
+            (word, similarity) for word, similarity in similar_word_with_similarity
+            if similarity > threshold
         ]
-        return close_words
+        sim_words_info = [
+            self.get_word_info(sim_word)
+            for sim_word, _ in sim_words
+        ]
+        return sim_words_info
 
-    def are_close(self, word1, word2):
-        return self.model.similarity(word1, word2) > self.threshold
+    @lru_cache(maxsize=1024)
+    def get_similarity(self, word1: str, word2: str) -> float:
+        return float(self.model.similarity(word1, word2))
 
-    def get_links_between_words(self, words):
-        pairs = []
-        for word1_pos, word1 in enumerate(words[:-1]):
-            for word2 in words[word1_pos + 1:]:
-                if self.are_close(word1, word2):
-                    pairs.append((word1, word2))
+    def get_directed_links_between_words(self, words: List[str], threshold: float = 0.3) -> List[dict]:
+        return [
+            {'source': source, 'target': target, 'similarity': self.get_similarity(source, target)}
+            for source, target in product(words, words)
+            if (self.get_similarity(source, target) > threshold)
+            and (source != target)
+        ]
 
-        return pairs
-
-    def get_random_word(self):
+    def get_random_word(self) -> str:
         return random.choice(list(self.model.vocab))
 
-    def has_word(self, word):
+    def has_word(self, word: str) -> bool:
         return word in self.model.vocab

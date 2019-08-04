@@ -1,3 +1,8 @@
+
+var graph = {nodes: [], links:[]};
+var node_indices = {};
+var link_indices = {};
+
 // Define the div for the tooltip
 var tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
@@ -11,7 +16,7 @@ var color = d3.scaleOrdinal(d3.schemeCategory20);
 
 var simulation = d3.forceSimulation()
   .alphaMin(0.01)
-  .force("link", d3.forceLink().id(function(d) { return d.id }).distance(100))
+  .force("link", d3.forceLink().id(d => d.id ).distance(100))
   .force("charge", d3.forceManyBody())
   .force("center", d3.forceCenter(width / 2, height / 2));
 
@@ -59,25 +64,20 @@ function node_click_dblclick(d) {
 
 function clicknode(d, sel) {
   console.log(d.id, "clicked");
-  d.isClicked=true;
   defaultCoords["cx"] = d.x;
   defaultCoords["cy"] = d.y;
-
-  sel.select('circle').attr("fill", color(d.isClicked));
-  d3.json("get_graph?add_word=" + d.id, function(error, graph) {
-    if (error) throw error;
-    console.log(graph);
-    redraw(graph);
-  })
+  append_similars(d.id);
 }
 
 function dblclicknode(d, sel) {
   console.log(d.id, "double clicked");
-  d3.json("get_graph?del_word=" + d.id, function(error, graph) {
-    if (error) throw error;
-    console.log(graph);
-    redraw(graph);
-  })
+  update_indices();
+  graph.nodes.splice(node_indices[d.id], 1);
+  graph.links = graph.links.filter(l => !is_link_connected_to_node(l, d));
+  tooltip.transition()
+            .duration(500)
+            .style("opacity", 0);
+  redraw(graph);
 }
 
 function dragended(d) {
@@ -108,32 +108,34 @@ function ticked() {
   node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 }
 
-function redraw(graph) {
+function get_link_id(l) {
+    return l.source + "-" + l.target;
+}
 
-  var nodeCoords = {};
-  node
-    .attr("id",function(){
-      var sel = d3.select(this);
-        nodeCoords[sel.attr('id')] = {
-          "cx": parseFloat(sel.attr('cx')),
-          "cy": parseFloat(sel.attr('cy'))
-        };
-        return sel.attr('id');
+function is_link_connected_to_node(l, node) {
+    return (l.source.id == node.id) || (l.target.id == node.id);
+}
+
+
+function update_indices() {
+    node_indices = {};
+    link_indices = {};
+    graph.links.forEach(function (l, i) {
+        link_indices[get_link_id(l)] = i;
     });
+    graph.nodes.forEach(function (d, i) {
+        node_indices[d.id] = i;
+    });
+}
 
-  graph.nodes.forEach(function(d) {
-    if (d.id in nodeCoords) {
-      d.x = nodeCoords[d.id]["cx"];
-      d.cx = nodeCoords[d.id]["cx"];
-      d.y = nodeCoords[d.id]["cy"];
-      d.cy = nodeCoords[d.id]["cy"];
-    } else {
-      d.x = defaultCoords["cx"];
-      d.cx = defaultCoords["cx"];
-      d.y = defaultCoords["cy"];
-      d.cy = defaultCoords["cy"];
-    }
+function redraw(graph) {
+  update_indices();
+  graph.nodes.forEach(function (d) {
+      d['cx'] = isNaN(d['x']) ? defaultCoords['cx'] : d['x'];
+      d['cy'] = isNaN(d['y']) ? defaultCoords['cy'] : d['y'];
+
   });
+
   //define group and join
   node = node
     .data(graph.nodes);
@@ -153,11 +155,11 @@ function redraw(graph) {
         tooltip.transition()
             .duration(200)
             .style("opacity", .9);
-        tooltip.html('<img src="get_image?word='+d.id+'"><br/>' + d.text)
+        tooltip.html(d.id + '<br/>' + d.text + '<br/>' + d.pos)
             .style("left", (d3.event.pageX + 30) + "px")
             .style("top", (d3.event.pageY - 90) + "px");
         })
-    .on("mouseout", function(d) {
+    .on("mouseout", function() {
         tooltip.transition()
             .duration(500)
             .style("opacity", 0);
@@ -173,7 +175,7 @@ function redraw(graph) {
    .attr("y", -8)
    .attr("r", 10)
    .attr("fill", function(d) {
-     return color(d.isClicked)
+     return color(1)
    });
 
   node_enter
@@ -184,21 +186,21 @@ function redraw(graph) {
   //merge
   node = node.merge(node_enter);
 
-  // Update all labels by force
+  // Update all labels & circles fill  by force
   node.data(graph.nodes).select('text').text(function(d) { return d.text });
-  // Update all circles fill by force
-  node.data(graph.nodes).select('circle').attr("fill", function(d) {
-    return color(d.isClicked)
-  });
+  // node.data(graph.nodes).select('circle').attr("fill", function(d) { return color(1) });
 
-  link = link.data(graph.links, function(d) {
-    return d.source + "-" + d.target;
+  link = link.data(graph.links, function(l) {
+    return get_link_id(l);
   });
   link.exit().remove();
   link = link.enter()
     .append("line")
-    .attr("stroke-width", function(d) {
-      return Math.sqrt(d.value);
+    .attr("stroke-width", function(l) {
+      return (parseFloat(l.similarity) - 0.25) * 5;
+    })
+    .attr("id", function(l) {
+      return get_link_id(l);
     })
     .merge(link);
 
@@ -206,14 +208,51 @@ function redraw(graph) {
     .exit()
     .remove();
 
+  // applying saved positions before simulation;
+  graph.nodes.forEach(function (d) {
+      d['x'] = d['cx'];
+      d['y'] = d['cy'];
+  });
   simulation
-    .nodes(graph.nodes)
+    .nodes([...graph.nodes])
     .on("tick", ticked);
-  simulation.force("link").links(graph.links);
+  simulation.force("link").links([...graph.links]);
   simulation.alpha(0.5).restart();
 }
 
-d3.json("get_graph", function(error, graph) {
-  if (error) throw error;
-  redraw(graph);
-});
+function append_similars(word_id) {
+    d3.json("get_similar_words?word="+word_id, function(error, similar_words) {
+      if (error) throw error;
+      if (similar_words.length > 0) {
+          update_indices();
+          let new_words = similar_words.filter(d => (!(d.id in node_indices)));
+          graph.nodes.push(...new_words);
+          var sim_words_str = similar_words.map(d=>d.id).join(',') + ',' + word_id;
+          d3.json("get_links?words="+sim_words_str, function(error, links) {
+              if (error) throw error;
+              let new_links = links.filter(l =>(!(get_link_id(l) in link_indices)));
+              graph.links.push(...new_links);
+              redraw(graph);
+          });
+      } else {
+          redraw(graph);
+      }
+    });
+}
+
+function restart(word) {
+    console.log("word", word);
+    var queryUrl = "get_word_info";
+    if (word != "") {
+        queryUrl += "?word="+word;
+    };
+    graph.nodes = [];
+    graph.links = [];
+    d3.json(queryUrl, function(error, random_word) {
+      if (error) throw error;
+      graph.nodes.push(random_word);
+      append_similars(random_word.id);
+    });
+}
+
+restart("");

@@ -19,7 +19,7 @@ div.tooltip {
     position: absolute;
     text-align: center;
     width: 120px;
-    height: 60px;
+    height: 40px;
     padding: 2px;
     font: 12px sans-serif;
     background: lightsteelblue;
@@ -28,21 +28,32 @@ div.tooltip {
     pointer-events: none;
 }
 
+div.form-group {
+    max-width: 400px
+}
+
+svg {
+  border: 1px dashed indianred;
+}
 </style>
 <svg width = "960" height = "600" > </svg>
 <div>
 Click to get similar words, double click to remove word.
-<form id="data" action="restart" method="get" target="dummyframe" onsubmit="window.location.reload()">
-Restart with word
-<input placeholder="лук_NOUN" name="word" id="word" form="data" >
-(Fill it blank for random word)
+<form id="restart-form">
+  <div class="form-group">
+  <label for="restart-input">Restart with word</label>
+  <input type="text" class="form-control" id="restart-input">
+  <small class="form-text text-muted">Fill it blank for random word.</small>
+  </div>
 </form>
-<button onclick="d3.json('get_graph', function(error, graph) {download(JSON.stringify(graph, null, ' '), 'graph.json', 'text/plain')})">
+
+<button type="button" class="btn btn-primary" onclick="download(JSON.stringify(graph, null, ' '), 'graph.json', 'text/plain')">
     Download graph
 </button>
 </div>
-<iframe width="0" height="0" border="0" name="dummyframe" id="dummyframe"></iframe>
 <script src = "https://d3js.org/d3.v4.min.js" > </script>
-<script src = "http://danml.com/js/download2.js" > </script>
-<script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js" > </script>
-<script src = "viz.js" > </script>
+<script src = "js/download2.js" > </script>
+<script src = "js/viz.js" > </script>
+<script src = "js/submit.js" > </script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
