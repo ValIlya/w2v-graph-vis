@@ -57,29 +57,15 @@ function dragged(d) {
   d.fy = d3.event.y;
 }
 
-function node_click_dblclick(d) {
-  var sel = d3.select(this);
-  if (clickedOnce) {
-      clearTimeout(timer);
-      dblclicknode(d, sel);
-      clickedOnce = false;
-  } else {
-      clickedOnce = true;
-      timer = setTimeout(function() {
-         clicknode(d, sel);
-         clickedOnce = false;
-      }, 300);
-  }
-}
-
-function clicknode(d, sel) {
+function add_similars(d) {
   console.log(d.id, "clicked");
   defaultCoords["cx"] = d.x;
   defaultCoords["cy"] = d.y;
   append_similars(d.id);
 }
 
-function dblclicknode(d, sel) {
+function delete_node(d) {
+  d3.event.preventDefault();
   console.log(d.id, "double clicked");
   update_indices();
   graph.nodes.splice(node_indices[d.id], 1);
@@ -174,7 +160,8 @@ function redraw(graph) {
     .attr("id", function(d) {
       return d.id
     })
-    .on("click", node_click_dblclick)
+    .on("click", add_similars)
+    .on("contextmenu", delete_node)
     .on("mouseover", function(d) {
         tooltip.transition()
             .duration(200)
