@@ -32,6 +32,15 @@ def get_word_info():
     return jsonify(word_handler.get_word_info(word))
 
 
+@app.route('/suggest')
+def suggest():
+    str = request.args['string']
+    topn = request.args.get('topn', 5)
+    vocab = list(word_handler.model.vocab)
+    vocab = [word for word in vocab if str in word]
+    return jsonify({'result': vocab[:topn]})
+
+
 @app.route('/get_similar_words')
 def get_similar_words():
     word = request.args['word']
