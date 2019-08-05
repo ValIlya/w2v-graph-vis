@@ -32,26 +32,40 @@ svg {
   border: 1px dashed indianred;
 }
 </style>
-<svg width = "960" height = "600" > </svg>
+
+<div class="container">
+    <div class="row">
+        <svg width = "900" height = "600"> </svg>
+    </div>
+    <div class="row">
+      <div class="col">
+          <div>Click to get similar words, double click to remove word.</div>
+          <form id="restart-form">
+              <div class="form-group">
+                  <label for="restart-input">Restart with word</label>
+                  <input type="text" class="form-control" id="restart-input" tooltip="show">
+                  <small class="form-text text-muted">Fill it blank for random word.</small>
+              </div>
+          </form>
+          <button type="button" class="btn btn-primary" onclick="download(JSON.stringify(graph, null, ' '), 'graph.json', 'text/plain')">
+              Download graph
+          </button>
+
+      </div>
+      <div class="col">
+          <div id="threshold-value">Threshold</div>
+          <input type="range" class="custom-range w-50" min="0.05" max="0.95" step="0.05" value="0.3" id="threshold-range">
+          <button type="button" class="btn btn-secondary" id="delete-weak-links">
+              Delete invisible links
+          </button>
+          <div id="topn-value">Top N</div>
+          <input type="range" class="custom-range w-50" min="1" max="50" step="1" value="10" id="topn-range">
+
+      </div>
+    </div>
+</div>
+
 <div>
-<div>Click to get similar words, double click to remove word.</div>
-<div id="threshold-value">Threshold</div>
-<input type="range" class="custom-range w-50" min="0.05" max="0.95" step="0.05" value="0.3" id="threshold-range">
-<button type="button" class="btn btn-secondary" id="delete-weak-links">
-    Delete invisible links
-</button>
-<div id="topn-value">Threshold</div>
-<input type="range" class="custom-range w-50" min="1" max="50" step="1" value="10" id="topn-range">
-<form id="restart-form">
-  <div class="form-group">
-  <label for="restart-input">Restart with word</label>
-  <input type="text" class="form-control" id="restart-input" tooltip="show">
-  <small class="form-text text-muted">Fill it blank for random word.</small>
-  </div>
-</form>
-<button type="button" class="btn btn-primary" onclick="download(JSON.stringify(graph, null, ' '), 'graph.json', 'text/plain')">
-    Download graph
-</button>
 </div>
 <script src = "https://d3js.org/d3.v4.min.js" > </script>
 <script src = "js/download2.js" > </script>
