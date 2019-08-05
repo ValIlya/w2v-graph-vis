@@ -4,6 +4,12 @@ var node_indices = {};
 var link_indices = {};
 var neighbors = {};
 
+const color = {
+    "usual":"#1f77b4",
+    "other":"#aec7e8",
+    "chosen":"#5254a3",
+};
+
 // Define the div for the tooltip
 var tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
@@ -13,7 +19,7 @@ var svg = d3.select("svg"),
   width = +svg.attr("width"),
   height = +svg.attr("height");
 
-var color = d3.scaleOrdinal(d3.schemeCategory20);
+
 
 var simulation = d3.forceSimulation()
   .alphaMin(0.01)
@@ -35,7 +41,7 @@ var zoom_handler = d3.zoom()
 zoom_handler(svg);
 
 function zoom_actions(){
-    svg.select('.links').attr("transform", d3.event.transform)
+    svg.select('.links').attr("transform", d3.event.transform);
     svg.select('.nodes').attr("transform", d3.event.transform)
 }
 
@@ -67,7 +73,7 @@ function delete_node(d) {
   console.log(d.id, "right clicked");
   update_indices();
   graph.nodes.splice(node_indices[d.id], 1);
-  graph.links = graph.links.filter(l => !is_link_connected_to_node(l, d));
+  graph.links = graph.links.filter(l => !is_link_connected_to_node(l, d.id));
   tooltip.transition()
             .duration(500)
             .style("opacity", 0);
@@ -126,8 +132,8 @@ function get_link_id(l) {
     return get_source_id(l) + "-" + get_target_id(l);
 }
 
-function is_link_connected_to_node(l, node) {
-    return (get_source_id(l) == node.id) || (get_target_id(l) == node.id);
+function is_link_connected_to_node(l, node_id) {
+    return (get_source_id(l) == node_id) || (get_target_id(l) == node_id);
 }
 
 function rewire_links(){
@@ -138,15 +144,17 @@ function rewire_links(){
   });
 }
 
-
 function update_indices() {
     node_indices = {};
     link_indices = {};
-    graph.links.forEach(function (l, i) {
-        link_indices[get_link_id(l)] = i;
-    });
+    neighbors = {};
     graph.nodes.forEach(function (d, i) {
         node_indices[d.id] = i;
+        neighbors[d.id] = {};
+    });
+    graph.links.forEach(function (l, i) {
+        link_indices[get_link_id(l)] = i;
+        neighbors[get_source_id(l)][get_target_id(l)] = l;
     });
 }
 
@@ -175,6 +183,7 @@ function redraw(graph) {
     .on("click", add_similars)
     .on("contextmenu", delete_node)
     .on("mouseover", function(d) {
+        color_neighbors(d.id);
         tooltip.transition()
             .duration(200)
             .style("opacity", .9);
@@ -183,6 +192,7 @@ function redraw(graph) {
             .style("top", (d3.event.pageY - 90) + "px");
         })
     .on("mouseout", function() {
+        color_neighbors("");
         tooltip.transition()
             .duration(500)
             .style("opacity", 0);
@@ -198,7 +208,7 @@ function redraw(graph) {
    .attr("y", -8)
    .attr("r", 10)
    .attr("fill", function(d) {
-     return color(1)
+     return color["usual"]
    });
 
   node_enter
@@ -245,6 +255,33 @@ function redraw(graph) {
     .on("tick", ticked);
   simulation.force("link").links(graph.links);
   simulation.alpha(0.5).restart();
+}
+
+function color_neighbors(node_id) {
+    node
+    .data(graph.nodes)
+        .select('circle')
+        .attr('fill', function (d) {
+            if (d.id  == node_id) {
+                return color["chosen"]
+            } else if ((node_id in neighbors) && (!(d.id in neighbors[node_id])))
+            {
+                return color["other"]
+            };
+            return color["usual"]
+        });
+
+    link
+    .data(graph.links)
+        .style('stroke-opacity', function (l) {
+            if (!(node_id in node_indices)) {
+              return 0.6
+            } else if (is_link_connected_to_node(l, node_id))  {
+              return 0.8
+            } else {
+              return 0.2
+            }
+  })
 }
 
 function append_similars(word_id) {
