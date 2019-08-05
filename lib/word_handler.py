@@ -6,7 +6,9 @@ from itertools import product
 from typing import List
 
 from gensim import models
+import pymorphy2
 
+morph = pymorphy2.MorphAnalyzer()
 
 def load_embeddings(embeddings_file):
     # Detect the model format by its extension:
@@ -41,6 +43,9 @@ def load_embeddings(embeddings_file):
     return emb_model
 
 
+def pymorphy_parse(text):
+    return [morph.parse(token)[0] for token in text.split()]
+
 class WordHandler:
 
     def __init__(self):
@@ -52,7 +57,11 @@ class WordHandler:
     def get_word_info(self, word: str) -> dict:
         text, pos = word.split('_')
         text = text.replace('::', ' ')
-        return {'id': word, 'label': text, 'text': text+"</br>"+pos}
+        text_parsed = ' '.join([
+            '{word} ({tag})'.format(word=parsed.word, tag=parsed.tag)
+            for parsed in pymorphy_parse(text)
+        ])
+        return {'id': word, 'label': text, 'text': pos+"</br>"+text_parsed}
 
     def get_similar_words(self, word: str, threshold: float = 0.3, topn: int = 10) -> List[dict]:
         similar_word_with_similarity = self.model.similar_by_word(word, topn=topn)
