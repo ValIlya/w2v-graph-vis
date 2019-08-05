@@ -187,7 +187,7 @@ function redraw(graph) {
         tooltip.transition()
             .duration(200)
             .style("opacity", .9);
-        tooltip.html(d.id + '<br/>' + d.text + '<br/>' + d.pos)
+        tooltip.html(d.text)
             .style("left", (d3.event.pageX + 30) + "px")
             .style("top", (d3.event.pageY - 90) + "px");
         })
@@ -215,13 +215,12 @@ function redraw(graph) {
     .append("text")
     .attr("dx", 12)
     .attr("dy", ".35em")
-    .text(function(d) { return d.text });
+    .text(function(d) { return d.label });
   //merge
   node = node.merge(node_enter);
 
-  // Update all labels & circles fill  by force
-  node.data(graph.nodes).select('text').text(function(d) { return d.text });
-  // node.data(graph.nodes).select('circle').attr("fill", function(d) { return color(1) });
+  // Update all labels by force
+  node.data(graph.nodes).select('text').text(function(d) { return d.label });
 
   link = link.data(graph.links, function(l) {
     return get_link_id(l);

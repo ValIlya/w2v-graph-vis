@@ -14,8 +14,6 @@
 div.tooltip {
     position: absolute;
     text-align: center;
-    width: 120px;
-    height: 40px;
     padding: 2px;
     font: 12px sans-serif;
     background: lightsteelblue;
@@ -44,7 +42,7 @@ svg {
               <div class="form-group">
                   <label for="restart-input">Restart with word</label>
                   <input type="text" class="form-control" id="restart-input" tooltip="show">
-                  <small class="form-text text-muted">Fill it blank for random word.</small>
+                  <small class="form-text text-muted">Keep it blank for random word.</small>
               </div>
           </form>
           <button type="button" class="btn btn-primary" onclick="download(JSON.stringify(graph, null, ' '), 'graph.json', 'text/plain')">

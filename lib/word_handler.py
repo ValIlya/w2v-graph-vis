@@ -52,7 +52,7 @@ class WordHandler:
     def get_word_info(self, word: str) -> dict:
         text, pos = word.split('_')
         text = text.replace('::', ' ')
-        return {'id': word, 'text': text, 'pos': pos}
+        return {'id': word, 'label': text, 'text': text+"</br>"+pos}
 
     def get_similar_words(self, word: str, threshold: float = 0.3, topn: int = 10) -> List[dict]:
         similar_word_with_similarity = self.model.similar_by_word(word, topn=topn)
