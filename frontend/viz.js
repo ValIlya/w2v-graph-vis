@@ -2,6 +2,7 @@ const localStorageName = 'w2v-graph-vis';
 var graph = {nodes: [], links:[], threshold: 0.3, topn: 10};
 var node_indices = {};
 var link_indices = {};
+var neighbors = {};
 
 // Define the div for the tooltip
 var tooltip = d3.select("body").append("div")
@@ -43,9 +44,6 @@ var defaultCoords = {
   "cy": 0
 };
 
-var clickedOnce = false;
-var timer;
-
 function dragstarted(d) {
   if (!d3.event.active) simulation.alphaTarget(0.3).restart();
   d.fx = d.x;
@@ -66,7 +64,7 @@ function add_similars(d) {
 
 function delete_node(d) {
   d3.event.preventDefault();
-  console.log(d.id, "double clicked");
+  console.log(d.id, "right clicked");
   update_indices();
   graph.nodes.splice(node_indices[d.id], 1);
   graph.links = graph.links.filter(l => !is_link_connected_to_node(l, d));
@@ -104,12 +102,40 @@ function ticked() {
   node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
 }
 
+function get_source_id(l){
+    if (typeof l.source == 'string') {
+          // for new links, coming from json
+          return l.source;
+      } else {
+          // old links, might be wrong pointers
+          return l.source.id;
+      };
+}
+
+function get_target_id(l){
+    if (typeof l.target == 'string') {
+          // for new links, coming from json
+          return l.target;
+      } else {
+          // old links, might be wrong pointers
+          return l.target.id;
+      };
+}
+
 function get_link_id(l) {
-    return l.source.id + "-" + l.target.id;
+    return get_source_id(l) + "-" + get_target_id(l);
 }
 
 function is_link_connected_to_node(l, node) {
-    return (l.source.id == node.id) || (l.target.id == node.id);
+    return (get_source_id(l) == node.id) || (get_target_id(l) == node.id);
+}
+
+function rewire_links(){
+  // making pointers from string and rewiring old links
+  graph.links.forEach(function (l) {
+      l.source = graph.nodes[node_indices[get_source_id(l)]];
+      l.target = graph.nodes[node_indices[get_target_id(l)]];
+  });
 }
 
 
@@ -126,25 +152,11 @@ function update_indices() {
 
 function redraw(graph) {
   update_indices();
+  rewire_links();
   graph.nodes.forEach(function (d) {
       d['cx'] = isNaN(d['x']) ? defaultCoords['cx'] : d['x'];
       d['cy'] = isNaN(d['y']) ? defaultCoords['cy'] : d['y'];
 
-  });
-  // making pointers from string and rewiring old links
-  graph.links.forEach(function (l) {
-      var source_id, target_id;
-      if (typeof l.source == 'string') {
-          // for new links, coming from json
-          source_id = l.source;
-          target_id = l.target;
-      } else {
-          // old links, might be wrong pointers
-          source_id = l.source.id;
-          target_id = l.target.id;
-      };
-      l.source = graph.nodes[node_indices[source_id]];
-      l.target = graph.nodes[node_indices[target_id]];
   });
   //define group and join
   node = node
