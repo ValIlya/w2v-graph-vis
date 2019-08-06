@@ -1,0 +1,773 @@
+{
+  "links": [
+    {
+      "similarity": 0.34967121481895447,
+      "source": "арбалет_NOUN",
+      "target": "шалот_NOUN"
+    },
+    {
+      "similarity": 0.319414883852005,
+      "source": "арбалет_NOUN",
+      "target": "репчатый_ADJ"
+    },
+    {
+      "similarity": 0.5279735326766968,
+      "source": "арбалет_NOUN",
+      "target": "лук_NOUN"
+    },
+    {
+      "similarity": 0.4153127074241638,
+      "source": "лука_NOUN",
+      "target": "шалот_NOUN"
+    },
+    {
+      "similarity": 0.34989863634109497,
+      "source": "лука_NOUN",
+      "target": "репчатый_ADJ"
+    },
+    {
+      "similarity": 0.5066132545471191,
+      "source": "лука_NOUN",
+      "target": "лук_NOUN"
+    },
+    {
+      "similarity": 0.8008884191513062,
+      "source": "устюг_NOUN",
+      "target": "луки_NOUN"
+    },
+    {
+      "similarity": 0.830979585647583,
+      "source": "устюг_NOUN",
+      "target": "кормчий_NOUN"
+    },
+    {
+      "similarity": 0.5014845728874207,
+      "source": "устюг_NOUN",
+      "target": "лук_NOUN"
+    },
+    {
+      "similarity": 0.8008884191513062,
+      "source": "луки_NOUN",
+      "target": "устюг_NOUN"
+    },
+    {
+      "similarity": 0.7395704984664917,
+      "source": "луки_NOUN",
+      "target": "кормчий_NOUN"
+    },
+    {
+      "similarity": 0.4891663193702698,
+      "source": "луки_NOUN",
+      "target": "лук_NOUN"
+    },
+    {
+      "similarity": 0.830979585647583,
+      "source": "кормчий_NOUN",
+      "target": "устюг_NOUN"
+    },
+    {
+      "similarity": 0.7395704984664917,
+      "source": "кормчий_NOUN",
+      "target": "луки_NOUN"
+    },
+    {
+      "similarity": 0.48196837306022644,
+      "source": "кормчий_NOUN",
+      "target": "лук_NOUN"
+    },
+    {
+      "similarity": 0.34967121481895447,
+      "source": "шалот_NOUN",
+      "target": "арбалет_NOUN"
+    },
+    {
+      "similarity": 0.4153127074241638,
+      "source": "шалот_NOUN",
+      "target": "лука_NOUN"
+    },
+    {
+      "similarity": 0.8449590802192688,
+      "source": "шалот_NOUN",
+      "target": "репчатый_ADJ"
+    },
+    {
+      "similarity": 0.4709019064903259,
+      "source": "шалот_NOUN",
+      "target": "лук_NOUN"
+    },
+    {
+      "similarity": 0.319414883852005,
+      "source": "репчатый_ADJ",
+      "target": "арбалет_NOUN"
+    },
+    {
+      "similarity": 0.34989863634109497,
+      "source": "репчатый_ADJ",
+      "target": "лука_NOUN"
+    },
+    {
+      "similarity": 0.8449590802192688,
+      "source": "репчатый_ADJ",
+      "target": "шалот_NOUN"
+    },
+    {
+      "similarity": 0.4624450206756592,
+      "source": "репчатый_ADJ",
+      "target": "лук_NOUN"
+    },
+    {
+      "similarity": 0.5279735326766968,
+      "source": "лук_NOUN",
+      "target": "арбалет_NOUN"
+    },
+    {
+      "similarity": 0.5066132545471191,
+      "source": "лук_NOUN",
+      "target": "лука_NOUN"
+    },
+    {
+      "similarity": 0.5014845728874207,
+      "source": "лук_NOUN",
+      "target": "устюг_NOUN"
+    },
+    {
+      "similarity": 0.4891663193702698,
+      "source": "лук_NOUN",
+      "target": "луки_NOUN"
+    },
+    {
+      "similarity": 0.48196837306022644,
+      "source": "лук_NOUN",
+      "target": "кормчий_NOUN"
+    },
+    {
+      "similarity": 0.4709019064903259,
+      "source": "лук_NOUN",
+      "target": "шалот_NOUN"
+    },
+    {
+      "similarity": 0.4624450206756592,
+      "source": "лук_NOUN",
+      "target": "репчатый_ADJ"
+    },
+    {
+      "similarity": 0.8619261980056763,
+      "source": "устюг_NOUN",
+      "target": "комбинатор_NOUN"
+    },
+    {
+      "similarity": 0.8554099202156067,
+      "source": "устюг_NOUN",
+      "target": "гэтсби_NOUN"
+    },
+    {
+      "similarity": 0.7334756851196289,
+      "source": "устюг_NOUN",
+      "target": "инквизитор_NOUN"
+    },
+    {
+      "similarity": 0.6103012561798096,
+      "source": "устюг_NOUN",
+      "target": "новгород_NOUN"
+    },
+    {
+      "similarity": 0.6738643646240234,
+      "source": "устюг_NOUN",
+      "target": "герцогство_NOUN"
+    },
+    {
+      "similarity": 0.8619261980056763,
+      "source": "комбинатор_NOUN",
+      "target": "устюг_NOUN"
+    },
+    {
+      "similarity": 0.8517576456069946,
+      "source": "комбинатор_NOUN",
+      "target": "гэтсби_NOUN"
+    },
+    {
+      "similarity": 0.8682898879051208,
+      "source": "комбинатор_NOUN",
+      "target": "кормчий_NOUN"
+    },
+    {
+      "similarity": 0.7935916185379028,
+      "source": "комбинатор_NOUN",
+      "target": "инквизитор_NOUN"
+    },
+    {
+      "similarity": 0.513216495513916,
+      "source": "комбинатор_NOUN",
+      "target": "новгород_NOUN"
+    },
+    {
+      "similarity": 0.6912230253219604,
+      "source": "комбинатор_NOUN",
+      "target": "герцогство_NOUN"
+    },
+    {
+      "similarity": 0.7542111277580261,
+      "source": "комбинатор_NOUN",
+      "target": "луки_NOUN"
+    },
+    {
+      "similarity": 0.8554099202156067,
+      "source": "гэтсби_NOUN",
+      "target": "устюг_NOUN"
+    },
+    {
+      "similarity": 0.8517576456069946,
+      "source": "гэтсби_NOUN",
+      "target": "комбинатор_NOUN"
+    },
+    {
+      "similarity": 0.8385314345359802,
+      "source": "гэтсби_NOUN",
+      "target": "кормчий_NOUN"
+    },
+    {
+      "similarity": 0.7531881332397461,
+      "source": "гэтсби_NOUN",
+      "target": "инквизитор_NOUN"
+    },
+    {
+      "similarity": 0.5224496126174927,
+      "source": "гэтсби_NOUN",
+      "target": "новгород_NOUN"
+    },
+    {
+      "similarity": 0.6686004400253296,
+      "source": "гэтсби_NOUN",
+      "target": "герцогство_NOUN"
+    },
+    {
+      "similarity": 0.7419182062149048,
+      "source": "гэтсби_NOUN",
+      "target": "луки_NOUN"
+    },
+    {
+      "similarity": 0.8682898879051208,
+      "source": "кормчий_NOUN",
+      "target": "комбинатор_NOUN"
+    },
+    {
+      "similarity": 0.8385314345359802,
+      "source": "кормчий_NOUN",
+      "target": "гэтсби_NOUN"
+    },
+    {
+      "similarity": 0.7773704528808594,
+      "source": "кормчий_NOUN",
+      "target": "инквизитор_NOUN"
+    },
+    {
+      "similarity": 0.4427810311317444,
+      "source": "кормчий_NOUN",
+      "target": "новгород_NOUN"
+    },
+    {
+      "similarity": 0.6877546906471252,
+      "source": "кормчий_NOUN",
+      "target": "герцогство_NOUN"
+    },
+    {
+      "similarity": 0.7334756851196289,
+      "source": "инквизитор_NOUN",
+      "target": "устюг_NOUN"
+    },
+    {
+      "similarity": 0.7935916185379028,
+      "source": "инквизитор_NOUN",
+      "target": "комбинатор_NOUN"
+    },
+    {
+      "similarity": 0.7531881332397461,
+      "source": "инквизитор_NOUN",
+      "target": "гэтсби_NOUN"
+    },
+    {
+      "similarity": 0.7773704528808594,
+      "source": "инквизитор_NOUN",
+      "target": "кормчий_NOUN"
+    },
+    {
+      "similarity": 0.3892745077610016,
+      "source": "инквизитор_NOUN",
+      "target": "новгород_NOUN"
+    },
+    {
+      "similarity": 0.6249161958694458,
+      "source": "инквизитор_NOUN",
+      "target": "герцогство_NOUN"
+    },
+    {
+      "similarity": 0.6551684141159058,
+      "source": "инквизитор_NOUN",
+      "target": "луки_NOUN"
+    },
+    {
+      "similarity": 0.6103012561798096,
+      "source": "новгород_NOUN",
+      "target": "устюг_NOUN"
+    },
+    {
+      "similarity": 0.513216495513916,
+      "source": "новгород_NOUN",
+      "target": "комбинатор_NOUN"
+    },
+    {
+      "similarity": 0.5224496126174927,
+      "source": "новгород_NOUN",
+      "target": "гэтсби_NOUN"
+    },
+    {
+      "similarity": 0.4427810311317444,
+      "source": "новгород_NOUN",
+      "target": "кормчий_NOUN"
+    },
+    {
+      "similarity": 0.3892745077610016,
+      "source": "новгород_NOUN",
+      "target": "инквизитор_NOUN"
+    },
+    {
+      "similarity": 0.3687795400619507,
+      "source": "новгород_NOUN",
+      "target": "герцогство_NOUN"
+    },
+    {
+      "similarity": 0.5956323146820068,
+      "source": "новгород_NOUN",
+      "target": "луки_NOUN"
+    },
+    {
+      "similarity": 0.6738643646240234,
+      "source": "герцогство_NOUN",
+      "target": "устюг_NOUN"
+    },
+    {
+      "similarity": 0.6912230253219604,
+      "source": "герцогство_NOUN",
+      "target": "комбинатор_NOUN"
+    },
+    {
+      "similarity": 0.6686004400253296,
+      "source": "герцогство_NOUN",
+      "target": "гэтсби_NOUN"
+    },
+    {
+      "similarity": 0.6877546906471252,
+      "source": "герцогство_NOUN",
+      "target": "кормчий_NOUN"
+    },
+    {
+      "similarity": 0.6249161958694458,
+      "source": "герцогство_NOUN",
+      "target": "инквизитор_NOUN"
+    },
+    {
+      "similarity": 0.3687795400619507,
+      "source": "герцогство_NOUN",
+      "target": "новгород_NOUN"
+    },
+    {
+      "similarity": 0.5948656797409058,
+      "source": "герцогство_NOUN",
+      "target": "луки_NOUN"
+    },
+    {
+      "similarity": 0.7542111277580261,
+      "source": "луки_NOUN",
+      "target": "комбинатор_NOUN"
+    },
+    {
+      "similarity": 0.7419182062149048,
+      "source": "луки_NOUN",
+      "target": "гэтсби_NOUN"
+    },
+    {
+      "similarity": 0.6551684141159058,
+      "source": "луки_NOUN",
+      "target": "инквизитор_NOUN"
+    },
+    {
+      "similarity": 0.5956323146820068,
+      "source": "луки_NOUN",
+      "target": "новгород_NOUN"
+    },
+    {
+      "similarity": 0.5948656797409058,
+      "source": "луки_NOUN",
+      "target": "герцогство_NOUN"
+    },
+    {
+      "similarity": 0.6804643869400024,
+      "source": "шалот_NOUN",
+      "target": "морковь_NOUN"
+    },
+    {
+      "similarity": 0.7350059747695923,
+      "source": "шалот_NOUN",
+      "target": "чеснок_NOUN"
+    },
+    {
+      "similarity": 0.7339286804199219,
+      "source": "шалот_NOUN",
+      "target": "нашинковывать_VERB"
+    },
+    {
+      "similarity": 0.7492210865020752,
+      "source": "шалот_NOUN",
+      "target": "редиска_NOUN"
+    },
+    {
+      "similarity": 0.7624562978744507,
+      "source": "шалот_NOUN",
+      "target": "шинковать_VERB"
+    },
+    {
+      "similarity": 0.7437785863876343,
+      "source": "шалот_NOUN",
+      "target": "порей_NOUN"
+    },
+    {
+      "similarity": 0.6804643869400024,
+      "source": "морковь_NOUN",
+      "target": "шалот_NOUN"
+    },
+    {
+      "similarity": 0.7614802122116089,
+      "source": "морковь_NOUN",
+      "target": "чеснок_NOUN"
+    },
+    {
+      "similarity": 0.7412935495376587,
+      "source": "морковь_NOUN",
+      "target": "нашинковывать_VERB"
+    },
+    {
+      "similarity": 0.743914008140564,
+      "source": "морковь_NOUN",
+      "target": "редиска_NOUN"
+    },
+    {
+      "similarity": 0.6822488307952881,
+      "source": "морковь_NOUN",
+      "target": "шинковать_VERB"
+    },
+    {
+      "similarity": 0.5212345719337463,
+      "source": "морковь_NOUN",
+      "target": "порей_NOUN"
+    },
+    {
+      "similarity": 0.7850875854492188,
+      "source": "морковь_NOUN",
+      "target": "репчатый_ADJ"
+    },
+    {
+      "similarity": 0.7350059747695923,
+      "source": "чеснок_NOUN",
+      "target": "шалот_NOUN"
+    },
+    {
+      "similarity": 0.7614802122116089,
+      "source": "чеснок_NOUN",
+      "target": "морковь_NOUN"
+    },
+    {
+      "similarity": 0.7411952614784241,
+      "source": "чеснок_NOUN",
+      "target": "нашинковывать_VERB"
+    },
+    {
+      "similarity": 0.7019781470298767,
+      "source": "чеснок_NOUN",
+      "target": "редиска_NOUN"
+    },
+    {
+      "similarity": 0.6854201555252075,
+      "source": "чеснок_NOUN",
+      "target": "шинковать_VERB"
+    },
+    {
+      "similarity": 0.619060218334198,
+      "source": "чеснок_NOUN",
+      "target": "порей_NOUN"
+    },
+    {
+      "similarity": 0.7602212429046631,
+      "source": "чеснок_NOUN",
+      "target": "репчатый_ADJ"
+    },
+    {
+      "similarity": 0.7339286804199219,
+      "source": "нашинковывать_VERB",
+      "target": "шалот_NOUN"
+    },
+    {
+      "similarity": 0.7412935495376587,
+      "source": "нашинковывать_VERB",
+      "target": "морковь_NOUN"
+    },
+    {
+      "similarity": 0.7411952614784241,
+      "source": "нашинковывать_VERB",
+      "target": "чеснок_NOUN"
+    },
+    {
+      "similarity": 0.7792569994926453,
+      "source": "нашинковывать_VERB",
+      "target": "редиска_NOUN"
+    },
+    {
+      "similarity": 0.839737057685852,
+      "source": "нашинковывать_VERB",
+      "target": "шинковать_VERB"
+    },
+    {
+      "similarity": 0.615225076675415,
+      "source": "нашинковывать_VERB",
+      "target": "порей_NOUN"
+    },
+    {
+      "similarity": 0.7444107532501221,
+      "source": "нашинковывать_VERB",
+      "target": "репчатый_ADJ"
+    },
+    {
+      "similarity": 0.7492210865020752,
+      "source": "редиска_NOUN",
+      "target": "шалот_NOUN"
+    },
+    {
+      "similarity": 0.743914008140564,
+      "source": "редиска_NOUN",
+      "target": "морковь_NOUN"
+    },
+    {
+      "similarity": 0.7019781470298767,
+      "source": "редиска_NOUN",
+      "target": "чеснок_NOUN"
+    },
+    {
+      "similarity": 0.7792569994926453,
+      "source": "редиска_NOUN",
+      "target": "нашинковывать_VERB"
+    },
+    {
+      "similarity": 0.7588585615158081,
+      "source": "редиска_NOUN",
+      "target": "шинковать_VERB"
+    },
+    {
+      "similarity": 0.580134391784668,
+      "source": "редиска_NOUN",
+      "target": "порей_NOUN"
+    },
+    {
+      "similarity": 0.7345837354660034,
+      "source": "редиска_NOUN",
+      "target": "репчатый_ADJ"
+    },
+    {
+      "similarity": 0.7624562978744507,
+      "source": "шинковать_VERB",
+      "target": "шалот_NOUN"
+    },
+    {
+      "similarity": 0.6822488307952881,
+      "source": "шинковать_VERB",
+      "target": "морковь_NOUN"
+    },
+    {
+      "similarity": 0.6854201555252075,
+      "source": "шинковать_VERB",
+      "target": "чеснок_NOUN"
+    },
+    {
+      "similarity": 0.839737057685852,
+      "source": "шинковать_VERB",
+      "target": "нашинковывать_VERB"
+    },
+    {
+      "similarity": 0.7588585615158081,
+      "source": "шинковать_VERB",
+      "target": "редиска_NOUN"
+    },
+    {
+      "similarity": 0.6362258195877075,
+      "source": "шинковать_VERB",
+      "target": "порей_NOUN"
+    },
+    {
+      "similarity": 0.7286930084228516,
+      "source": "шинковать_VERB",
+      "target": "репчатый_ADJ"
+    },
+    {
+      "similarity": 0.7437785863876343,
+      "source": "порей_NOUN",
+      "target": "шалот_NOUN"
+    },
+    {
+      "similarity": 0.5212345719337463,
+      "source": "порей_NOUN",
+      "target": "морковь_NOUN"
+    },
+    {
+      "similarity": 0.619060218334198,
+      "source": "порей_NOUN",
+      "target": "чеснок_NOUN"
+    },
+    {
+      "similarity": 0.615225076675415,
+      "source": "порей_NOUN",
+      "target": "нашинковывать_VERB"
+    },
+    {
+      "similarity": 0.580134391784668,
+      "source": "порей_NOUN",
+      "target": "редиска_NOUN"
+    },
+    {
+      "similarity": 0.6362258195877075,
+      "source": "порей_NOUN",
+      "target": "шинковать_VERB"
+    },
+    {
+      "similarity": 0.7251721620559692,
+      "source": "порей_NOUN",
+      "target": "репчатый_ADJ"
+    },
+    {
+      "similarity": 0.7850875854492188,
+      "source": "репчатый_ADJ",
+      "target": "морковь_NOUN"
+    },
+    {
+      "similarity": 0.7602212429046631,
+      "source": "репчатый_ADJ",
+      "target": "чеснок_NOUN"
+    },
+    {
+      "similarity": 0.7444107532501221,
+      "source": "репчатый_ADJ",
+      "target": "нашинковывать_VERB"
+    },
+    {
+      "similarity": 0.7345837354660034,
+      "source": "репчатый_ADJ",
+      "target": "редиска_NOUN"
+    },
+    {
+      "similarity": 0.7286930084228516,
+      "source": "репчатый_ADJ",
+      "target": "шинковать_VERB"
+    },
+    {
+      "similarity": 0.7251721620559692,
+      "source": "репчатый_ADJ",
+      "target": "порей_NOUN"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "лук_NOUN",
+      "label": "лук",
+      "text": "NOUN</br>лук (NOUN,inan,femn plur,gent)"
+    },
+    {
+      "id": "арбалет_NOUN",
+      "label": "арбалет",
+      "text": "NOUN</br>арбалет (NOUN,inan,masc sing,nomn)"
+    },
+    {
+      "id": "лука_NOUN",
+      "label": "лука",
+      "text": "NOUN</br>лука (NOUN,inan,femn sing,nomn)"
+    },
+    {
+      "id": "устюг_NOUN",
+      "label": "устюг",
+      "text": "NOUN</br>устюг (NOUN,inan,masc,Geox sing,nomn)"
+    },
+    {
+      "id": "луки_NOUN",
+      "label": "луки",
+      "text": "NOUN</br>луки (NOUN,inan,femn sing,gent)"
+    },
+    {
+      "id": "кормчий_NOUN",
+      "label": "кормчий",
+      "text": "NOUN</br>кормчий (NOUN,anim,masc sing,nomn)"
+    },
+    {
+      "id": "шалот_NOUN",
+      "label": "шалот",
+      "text": "NOUN</br>шалот (NOUN,inan,masc sing,nomn)"
+    },
+    {
+      "id": "репчатый_ADJ",
+      "label": "репчатый",
+      "text": "ADJ</br>репчатый (ADJF,Qual masc,sing,nomn)"
+    },
+    {
+      "id": "комбинатор_NOUN",
+      "label": "комбинатор",
+      "text": "NOUN</br>комбинатор (NOUN,anim,masc sing,nomn)"
+    },
+    {
+      "id": "гэтсби_NOUN",
+      "label": "гэтсби",
+      "text": "NOUN</br>гэтсби (NOUN,inan,masc,Sgtm,Fixd,Geox sing,nomn)"
+    },
+    {
+      "id": "инквизитор_NOUN",
+      "label": "инквизитор",
+      "text": "NOUN</br>инквизитор (NOUN,anim,masc sing,nomn)"
+    },
+    {
+      "id": "новгород_NOUN",
+      "label": "новгород",
+      "text": "NOUN</br>новгород (NOUN,inan,masc,Geox sing,accs)"
+    },
+    {
+      "id": "герцогство_NOUN",
+      "label": "герцогство",
+      "text": "NOUN</br>герцогство (NOUN,inan,neut sing,nomn)"
+    },
+    {
+      "id": "морковь_NOUN",
+      "label": "морковь",
+      "text": "NOUN</br>морковь (NOUN,inan,femn sing,nomn)"
+    },
+    {
+      "id": "чеснок_NOUN",
+      "label": "чеснок",
+      "text": "NOUN</br>чеснок (NOUN,inan,masc sing,nomn)"
+    },
+    {
+      "id": "нашинковывать_VERB",
+      "label": "нашинковывать",
+      "text": "VERB</br>нашинковывать (INFN,impf,tran)"
+    },
+    {
+      "id": "редиска_NOUN",
+      "label": "редиска",
+      "text": "NOUN</br>редиска (NOUN,inan,femn sing,nomn)"
+    },
+    {
+      "id": "шинковать_VERB",
+      "label": "шинковать",
+      "text": "VERB</br>шинковать (INFN,impf,tran)"
+    },
+    {
+      "id": "порей_NOUN",
+      "label": "порей",
+      "text": "NOUN</br>порей (NOUN,inan,masc sing,nomn)"
+    }
+  ],
+  "threshold": "0.3",
+  "topn": "7"
+}
