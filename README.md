@@ -1,7 +1,9 @@
 # w2v-graph-vis
 
 Interactive graph visualizations from embedding models.  
-Inspired by [lizaku/vec2graph](https://github.com/lizaku/vec2graph/)
+Inspired by [lizaku/vec2graph](https://github.com/lizaku/vec2graph/)  
+## Demo  
+[https://valilya.github.io/w2v-graph-vis/](https://valilya.github.io/w2v-graph-vis/)
 
 ## Installation
 ```shell
