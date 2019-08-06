@@ -284,7 +284,7 @@ function color_neighbors(node_id) {
 }
 
 function append_similars(word_id) {
-    let query = "get_similar_words?word="+word_id+"&threshold="+graph.threshold+"&topn="+graph.topn;
+    let query = "get_similar_words?word="+word_id+"&topn="+graph.topn;
     d3.json(query, function(error, similar_words) {
       if (error) throw error;
       if (similar_words.length > 0) {
