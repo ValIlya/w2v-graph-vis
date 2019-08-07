@@ -55,7 +55,10 @@ class WordHandler:
         self.model = load_embeddings(embeddings_file)
 
     def get_word_info(self, word: str) -> dict:
-        text, pos = word.split('_')
+        if '_' in word:
+            text, pos = word.split('_')
+        else:
+            text, pos = word, ""
         text = text.replace('::', ' ')
         text_parsed = ' '.join([
             '{word} ({tag})'.format(word=parsed.word, tag=parsed.tag)
