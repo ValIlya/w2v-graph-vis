@@ -6,7 +6,7 @@ Inspired by [lizaku/vec2graph](https://github.com/lizaku/vec2graph/)
 [https://valilya.github.io/w2v-graph-vis/](https://valilya.github.io/w2v-graph-vis/)
 
 ## Installation
-Поддерживается Python 3.6+
+Python 3.6+ supported
 ```shell
 pip install -r requirements.txt
 ```
