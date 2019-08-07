@@ -37,12 +37,12 @@ svg {
     </div>
     <div class="row">
       <div class="col">
-          <div>Click to get similar words, right click to remove word.</div>
+          <div>Click to get similar words, right click to remove the word.</div>
           <form id="restart-form">
               <div class="form-group">
                   <label for="restart-input">Restart with word</label>
                   <input type="text" class="form-control" id="restart-input" tooltip="show">
-                  <small class="form-text text-muted">Keep it blank for random word.</small>
+                  <small class="form-text text-muted">Keep it blank for a random word.</small>
               </div>
           </form>
           <button type="button" class="btn btn-primary" onclick="download(JSON.stringify(graph, null, ' '), 'graph.json', 'text/plain')">

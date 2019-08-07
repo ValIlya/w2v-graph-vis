@@ -294,7 +294,7 @@ function append_similars(word_id) {
 }
 
 function restart(word) {
-    console.log("restarting with word", word);
+    console.log("restarting with the word '", word, "'");
     var needNewWords = true;
     if (word === null) {
         let loaded_graph = JSON.parse(localStorage.getItem(localStorageName));
