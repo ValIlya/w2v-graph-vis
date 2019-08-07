@@ -13,27 +13,18 @@ thresRange.addEventListener("change", function(e){
     graph.threshold = thresRange.value;
     thresValue.innerHTML = "Threshold: " + graph.threshold;
 
-    console.log('resetting threshold');
-    graph.links.forEach(function (l) {
-        if (l.similarity < graph.threshold) {
-            l.visibility="hidden";
-        } else {
-            l.visibility="visible";
-        }
-    });
-    link
-        .data(graph.links, l => get_link_id(l))
-        .attr('visibility', l => l.visibility);
+    console.log('resetting threshold to ', graph.threshold);
+    d3.json("graph_example.json", function (error, json_graph) {
+        if (error) throw error;
+        update_indices();
+        graph.links = json_graph.links
+            .filter(l=>l.similarity > graph.threshold)
+            .filter(l=>l.source in node_indices)
+            .filter(l=>l.target in node_indices);
+        redraw(graph);
+    })
 
 });
-
-
-document.querySelector("#delete-weak-links").addEventListener("click", function(e){
-    console.log('deleting weak links');
-    graph.links = graph.links.filter(l => l.similarity >= graph.threshold);
-    redraw(graph);
-});
-
 
 let topnRange = document.querySelector("#topn-range");
 let topnValue = document.getElementById('topn-value');

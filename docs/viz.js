@@ -286,14 +286,15 @@ function color_neighbors(node_id) {
 function append_similars(word_id) {
     d3.json("graph_example.json", function (error, json_graph) {
         if (error) throw error;
-        graph = json_graph;
+        graph.nodes = json_graph.nodes;
+        console.log("graph.threshold",graph.threshold);
+        graph.links = json_graph.links.filter(l=>l.similarity > graph.threshold);
         redraw(graph);
     })
 }
 
 function restart(word) {
     console.log("restarting with word", word);
-    var queryUrl = "get_word_info";
     var needNewWords = true;
     if (word === null) {
         let loaded_graph = JSON.parse(localStorage.getItem(localStorageName));
@@ -305,13 +306,11 @@ function restart(word) {
             needNewWords = false;
         }
     } else {
-        if (word != "") {
-            queryUrl += "?word="+word
-        };
         graph.nodes = [];
         graph.links = [];
     };
     if (needNewWords) {
+        console.log(needNewWords);
         append_similars("")
     } else {
         redraw(graph)

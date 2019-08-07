@@ -13,27 +13,15 @@ thresRange.addEventListener("change", function(e){
     graph.threshold = thresRange.value;
     thresValue.innerHTML = "Threshold: " + graph.threshold;
 
-    console.log('resetting threshold');
-    graph.links.forEach(function (l) {
-        if (l.similarity < graph.threshold) {
-            l.visibility="hidden";
-        } else {
-            l.visibility="visible";
-        }
+    console.log('resetting threshold to ', graph.threshold);
+    let sim_words_str = graph.nodes.map(d=>d.id).join(',');
+    d3.json("get_links?words="+sim_words_str+"&threshold="+graph.threshold, function(error, links) {
+      if (error) throw error;
+      graph.links = links;
+      redraw(graph);
     });
-    link
-        .data(graph.links, l => get_link_id(l))
-        .attr('visibility', l => l.visibility);
 
 });
-
-
-document.querySelector("#delete-weak-links").addEventListener("click", function(e){
-    console.log('deleting weak links');
-    graph.links = graph.links.filter(l => l.similarity >= graph.threshold);
-    redraw(graph);
-});
-
 
 let topnRange = document.querySelector("#topn-range");
 let topnValue = document.getElementById('topn-value');
