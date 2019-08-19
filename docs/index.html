@@ -48,7 +48,7 @@ svg {
                   <small class="form-text text-muted">Keep it blank for a random word.</small>
               </div>
           </form>
-          <button type="button" class="btn btn-primary" onclick="download(JSON.stringify(graph, null, ' '), 'graph.json', 'text/plain')">
+          <button type="button" class="btn btn-primary" onclick="download(graphToString(), 'graph.json', 'text/plain')">
               Download the graph
           </button>
       </div>
@@ -62,14 +62,14 @@ svg {
       </div>
     </div>
 </div>
-<script src = "https://d3js.org/d3.v4.min.js" > </script>
-<script src = "download2.js" > </script>
-<script src = "viz.js" > </script>
-<script src = "submit.js" > </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.4/awesomplete.min.js"></script>
+<script defer type="text/javascript" src = "https://d3js.org/d3.v4.min.js" > </script>
+<script defer type="text/javascript" src = "../frontend/download2.js" > </script>
+<script defer type="text/javascript" src = "../frontend/viz.js" > </script>
+<script defer type="text/javascript" src = "main.js" > </script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.4/awesomplete.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.4/awesomplete.css">
-<script src = "suggest.js" > </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.4/awesomplete.min.js"></script>
+<script defer type="text/javascript" src = "suggest.js" > </script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.4/awesomplete.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.4/awesomplete.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script defer type="text/javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>

@@ -41,3 +41,40 @@ topnRange.addEventListener("change", function(e){
         .attr('visibility', l => l.visibility);
 
 });
+
+
+function append_similars(word_id) {
+    d3.json("graph_example.json", function (error, json_graph) {
+        if (error) throw error;
+        graph.nodes = json_graph.nodes;
+        console.log("graph.threshold",graph.threshold);
+        graph.links = json_graph.links.filter(l=>l.similarity > graph.threshold);
+        redraw(graph);
+    })
+}
+
+function restart(word) {
+    console.log("restarting with the word '", word, "'");
+    var needNewWords = true;
+    if (word === null) {
+        let loaded_graph = JSON.parse(localStorage.getItem(localStorageName));
+        if (loaded_graph !== null) {
+            graph = loaded_graph;
+            document.querySelector("#threshold-range").value = graph.threshold;
+            document.querySelector("#topn-range").value = graph.topn;
+            console.log('initializing from the local storage');
+            needNewWords = false;
+        }
+    } else {
+        graph.nodes = [];
+        graph.links = [];
+    };
+    if (needNewWords) {
+        console.log(needNewWords);
+        append_similars("")
+    } else {
+        redraw(graph)
+    }
+}
+
+restart(null);
