@@ -24,6 +24,11 @@ def get_js(file):
     return open(f'frontend/{file}', 'r').read()
 
 
+@app.route('/docs/<file>')
+def get_js_docs(file):
+    return open(f'docs/{file}', 'r').read()
+
+
 @app.route('/get_word_info')
 def get_word_info():
     word = request.args.get('word', word_handler.get_random_word())
