@@ -5,10 +5,11 @@ from functools import lru_cache
 from itertools import product
 from typing import List
 
-from gensim import models
 import pymorphy2
+from gensim import models
 
 morph = pymorphy2.MorphAnalyzer()
+
 
 def load_embeddings(embeddings_file):
     # Detect the model format by its extension:
@@ -46,6 +47,7 @@ def load_embeddings(embeddings_file):
 def pymorphy_parse(text):
     return [morph.parse(token)[0] for token in text.split()]
 
+
 class WordHandler:
 
     def __init__(self):
@@ -64,7 +66,7 @@ class WordHandler:
             '{word} ({tag})'.format(word=parsed.word, tag=parsed.tag)
             for parsed in pymorphy_parse(text)
         ])
-        return {'id': word, 'label': text, 'text': pos+"</br>"+text_parsed}
+        return {'id': word, 'label': text, 'text': pos + "</br>" + text_parsed}
 
     def get_similar_words(self, word: str, threshold: float = 0.3, topn: int = 10) -> List[dict]:
         similar_word_with_similarity = self.model.similar_by_word(word, topn=topn)
@@ -80,18 +82,23 @@ class WordHandler:
 
     @lru_cache(maxsize=1024)
     def get_similarity(self, word1: str, word2: str) -> float:
-        return float(self.model.similarity(word1, word2))
+        if self.has_word(word1) and self.has_word(word2):
+            return float(self.model.similarity(word1, word2))
+        return 0
 
     def get_directed_links_between_words(self, words: List[str], threshold: float = 0.3) -> List[dict]:
         return [
             {'source': source, 'target': target, 'similarity': self.get_similarity(source, target)}
             for source, target in product(words, words)
             if (self.get_similarity(source, target) > threshold)
-            and (source != target)
+               and (source != target)
         ]
 
     def get_random_word(self) -> str:
-        return random.choice(list(self.model.vocab))
+        return random.choice(list(self.model.wv.vocab))
+
+    def vocab(self):
+        return self.model.wv.vocab
 
     def has_word(self, word: str) -> bool:
-        return word in self.model.vocab
+        return word in self.model.wv.vocab

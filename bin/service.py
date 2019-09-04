@@ -41,7 +41,7 @@ def get_word_info():
 def suggest():
     str = request.args['string']
     topn = request.args.get('topn', 5)
-    vocab = list(word_handler.model.vocab)
+    vocab = list(word_handler.vocab())
     vocab = [word for word in vocab if str in word]
     return jsonify({'result': vocab[:topn]})
 
